@@ -1,12 +1,12 @@
 package be.plomberie.demo.repository;
 
-import be.plomberie.demo.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
+import be.plomberie.demo.model.Avis;
 
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Long> {
-    List<Client> findByLastname(String lastname); 
+public interface AvisRepository extends JpaRepository<Avis, Integer> {
+    
+    List<Avis> findByNote(int note);
 }

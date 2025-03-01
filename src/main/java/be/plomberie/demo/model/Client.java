@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor (force = true , access = AccessLevel.PUBLIC) // POTECTED changé en PUBLIC
 @Entity
-@Table(name = "clients") // Assurez-vous que votre table en base de données s'appelle bien "clients"
+@Table(name = "clients") 
 public class Client {
 
     @Id
