@@ -22,7 +22,7 @@ public class ClientController {
         List<Client> clients = clientService.getAllClients();
         model.addAttribute("clients", clients);
         model.addAttribute("title", "Liste des clients");
-        return "client/main"; // Assurez-vous que le fichier HTML est bien dans "src/main/resources/templates/client/main.html"
+        return "client/main"; 
     }
 
     @PostMapping("/ajouter-client")
