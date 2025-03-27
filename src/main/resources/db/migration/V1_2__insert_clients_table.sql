@@ -1,0 +1,17 @@
+INSERT INTO `clients` (`id`, `firstname`, `lastname`, `email`, `telephone`) VALUES
+(1, 'Hicham', 'Serifi-Ayemamouni', 'serifihicham@hotmail.fr', '+32 475 12 34 56'),
+(2, 'Emma', 'Vermeulen', 'emma.vermeulen@hotmail.com', '+32 478 98 76 54'),
+(3, 'Noah', 'Janssens', 'noah.janssens@yahoo.be', '+32 495 32 14 78'),
+(4, 'Liam', 'Peeters', 'liam.peeters@skynet.be', '+32 477 45 78 12'),
+(5, 'Elise', 'Maes', 'elise.maes@proximus.be', '+32 499 87 65 43'),
+(6, 'Louis', 'Van den Broeck', 'louis.vdb@telenet.be', '+32 493 56 21 89'),
+(7, 'Sophie', 'Goossens', 'sophie.goossens@voo.be', '+32 476 34 29 57'),
+(8, 'Nathan', 'Dubois', 'nathan.dubois@gmail.com', '+32 471 23 45 67'),
+(9, 'Charlotte', 'Lemaire', 'charlotte.lemaire@yahoo.fr', '+32 479 85 21 36'),
+(10, 'Thomas', 'De Smet', 'thomas.desmet@outlook.com', '+32 494 67 89 23'),
+(11, 'Julie', 'Claes', 'julie.claes@hotmail.be', '+32 497 56 34 12'),
+(12, 'Mathis', 'Devos', 'mathis.devos@gmail.com', '+32 482 79 45 61'),
+(13, 'Hugo', 'Van Damme', 'hugo.vandamme@telenet.be', '+32 488 41 53 72'),
+(14, 'Laura', 'Wouters', 'laura.wouters@skynet.be', '+32 473 65 12 98'),
+(15, 'Bastien', 'Simon', 'bastien.simon@voo.be', '+32 486 24 31 75'),
+(16, 'Manon', 'Lefebvre', 'manon.lefebvre@gmail.com', '+32 496 78 92 45');

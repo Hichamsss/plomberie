@@ -1,0 +1,5 @@
+CREATE TABLE avis (
+    id_avis INT AUTO_INCREMENT PRIMARY KEY,
+    contenu VARCHAR(500) NOT NULL,
+    note INT NOT NULL CHECK (note BETWEEN 1 AND 5)
+);

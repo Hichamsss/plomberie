@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">Liste des devis</title>
+</head>
+<body>
+    <h1 th:text="${title}">Liste des devis</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Date de création</th>
+            <th>Statut</th>
+        </tr>
+        <tr th:each="devis : ${devisList}">
+            <td th:text="${devis.idDevis}"></td>
+            <td th:text="${devis.description}"></td>
+            <td th:text="${#temporals.format(devis.dateCreation, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${devis.status}"></td>
+        </tr>
+    </table>
+</body>
+</html>

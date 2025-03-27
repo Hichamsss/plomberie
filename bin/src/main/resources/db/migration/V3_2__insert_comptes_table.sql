@@ -1,0 +1,17 @@
+INSERT INTO `comptes` (`id`, `nom`, `email`, `mot_de_passe`) VALUES
+(1, 'Hicham Serifi-Ayemamouni', 'serifihicham@hotmail.fr', 'password1'),
+(2, 'Emma Vermeulen', 'emma.vermeulen@hotmail.com', 'password2'),
+(3, 'Noah Janssens', 'noah.janssens@yahoo.be', 'password3'),
+(4, 'Liam Peeters', 'liam.peeters@skynet.be', 'password4'),
+(5, 'Elise Maes', 'elise.maes@proximus.be', 'password5'),
+(6, 'Louis Van den Broeck', 'louis.vdb@telenet.be', 'password6'),
+(7, 'Sophie Goossens', 'sophie.goossens@voo.be', 'password7'),
+(8, 'Nathan Dubois', 'nathan.dubois@gmail.com', 'password8'),
+(9, 'Charlotte Lemaire', 'charlotte.lemaire@yahoo.fr', 'password9'),
+(10, 'Thomas De Smet', 'thomas.desmet@outlook.com', 'password10'),
+(11, 'Julie Claes', 'julie.claes@hotmail.be', 'password11'),
+(12, 'Mathis Devos', 'mathis.devos@gmail.com', 'password12'),
+(13, 'Hugo Van Damme', 'hugo.vandamme@telenet.be', 'password13'),
+(14, 'Laura Wouters', 'laura.wouters@skynet.be', 'password14'),
+(15, 'Bastien Simon', 'bastien.simon@voo.be', 'password15'),
+(16, 'Manon Lefebvre', 'manon.lefebvre@gmail.com', 'password16');
