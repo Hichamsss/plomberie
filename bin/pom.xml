@@ -39,11 +39,14 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 		<dependency>
+<<<<<<< HEAD
 	 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 	  			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
 
 		<dependency>
+=======
+>>>>>>> origin/main
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
@@ -57,12 +60,19 @@
 		</dependency>
 
 		<dependency>
+<<<<<<< HEAD
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
 		    <version>8.0.33</version>
 		    <scope>runtime</scope>
 		</dependency>
 
+=======
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+>>>>>>> origin/main
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

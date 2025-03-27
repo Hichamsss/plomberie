@@ -1,5 +1,6 @@
 package be.plomberie.demo.service;
 
+<<<<<<< HEAD
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,15 @@ import org.springframework.stereotype.Service;
 
 import be.plomberie.demo.model.Client;
 import be.plomberie.demo.repository.ClientRepository;
+=======
+import be.plomberie.demo.model.Client;
+import be.plomberie.demo.repository.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+>>>>>>> origin/main
 
 @Service
 public class ClientService {
