@@ -30,8 +30,8 @@ public class CompteController {
     public String listComptes(Model model) {
         List<Compte> comptes = compteService.getAllComptes();
         model.addAttribute("comptes", comptes);
-        model.addAttribute("compte", new Compte()); // Pour le formulaire d'ajout
-        return "compte/index"; // Affiche la page index.html
+        model.addAttribute("compte", new Compte());
+        return "compte/index";
     }
 
     // 🔹 2. Ajouter un compte

@@ -1,0 +1,21 @@
+package be.plomberie.demo.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import be.plomberie.demo.service.ServiceService;
+
+@Controller
+public class ServiceController {
+
+    @Autowired
+    private ServiceService serviceService;
+
+    @GetMapping("/services")
+    public String listServices(Model model) {
+        model.addAttribute("services", serviceService.getAllServices());
+        model.addAttribute("title", "Liste des services");
+        return "services/list";
+    }
+}
