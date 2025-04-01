@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Le Bon Tuyau - Professionnels de la Plomberie</title>
+    <style>
+        /* Style global */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background-color: #005f9e;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Logo */
+        .logo {
+            height: 60px;
+            margin-right: 15px;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #00497a;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            color: #FF6F00;
+        }
+
+        /* Contenu */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #00497a;
+            font-family: 'Roboto', sans-serif;
+            font-size: 32px;
+        }
+
+        /* Section professionnelle */
+        .professional-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .professional-text {
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: #005f9e;
+            font-weight: bold;
+        }
+
+        /* Galerie d'images */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-image:hover {
+            transform: scale(1.03);
+        }
+
+        /* Bouton Demander un devis */
+        .cta {
+            display: block;
+            width: 220px;
+            text-align: center;
+            margin: 30px auto;
+            padding: 12px;
+            background-color: #FF6F00;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .cta:hover {
+            background-color: #e65c00;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #333;
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header avec Logo -->
+    <header>
+        <img src="/images/logo.png" alt="Le Bon Tuyau Logo" class="logo">
+        Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="/">Accueil</a>
+        <a href="/services">Nos Services</a>
+        <a href="/realisations">Réalisations</a>
+        <a href="/devis">Devis</a>
+        <a href="/about">À propos</a>
+        <a href="/contact">Contact</a>
+    </nav>
+
+    <!-- Contenu -->
+    <div class="container">
+        <h1>Professionnels de la Plomberie depuis 2013</h1>
+
+        <div class="professional-section">
+            <p class="professional-text">
+                <span class="highlight">Le Bon Tuyau</span> est une entreprise de plomberie professionnelle 
+                qui exerce avec passion depuis <span class="highlight">2013</span>. Notre équipe d'experts 
+                intervient rapidement et efficacement dans <span class="highlight">toute la Belgique</span> 
+                pour répondre à tous vos besoins en plomberie et sanitaire.
+            </p>
+            
+            <p class="professional-text">
+                Nous proposons également des <span class="highlight">interventions urgentes</span> 24h/24 
+                pour les situations critiques. Notre engagement : qualité, rapidité et transparence des tarifs.
+            </p>
+        </div>
+
+        <!-- Galerie d'images -->
+        <div class="image-gallery">
+            <img src="/images/im1.jpg" alt="Nos réalisations" class="gallery-image">
+            <img src="/images/im2.jpg" alt="Travaux de plomberie" class="gallery-image">
+            <img src="/images/im3.jpeg" alt="Installation sanitaire" class="gallery-image">
+            <img src="/images/im4.jpeg" alt="Expertise professionnelle" class="gallery-image">
+            <img src="/images/im5.jpeg" alt="Service client" class="gallery-image">
+            <img src="/images/im6.jpg" alt="Équipe qualifiée" class="gallery-image">
+        </div>
+
+        <a href="/devis" class="cta">Demander un devis</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
+    </footer>
+
+</body>
+</html>

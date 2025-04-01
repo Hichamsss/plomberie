@@ -19,6 +19,7 @@ public class RealisationController {
 
     @GetMapping
     public String listRealisations(Model model) {
+        model.addAttribute("title", "Nos Réalisations");
         model.addAttribute("realisations", realisationService.getAllRealisations());
         return "realisation/main";
     }

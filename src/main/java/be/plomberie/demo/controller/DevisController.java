@@ -19,7 +19,7 @@ public class DevisController {
 
     @GetMapping
     public String listDevis(Model model) {
-        model.addAttribute("title", "Liste des Devis"); // Ajout du titre
+        model.addAttribute("title", "Liste des Devis");
         model.addAttribute("devisList", devisService.getAllDevis());
         return "devis/list";
     }
