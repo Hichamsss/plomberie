@@ -3,10 +3,7 @@ package be.plomberie.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/main
 import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 
 @Configuration

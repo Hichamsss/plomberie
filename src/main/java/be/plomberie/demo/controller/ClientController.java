@@ -1,12 +1,10 @@
 package be.plomberie.demo.controller;
 
-<<<<<<< HEAD
 import java.util.List;
 
-=======
 import be.plomberie.demo.model.Client;
 import be.plomberie.demo.service.ClientService;
->>>>>>> origin/main
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-<<<<<<< HEAD
-import be.plomberie.demo.model.Client;
-import be.plomberie.demo.service.ClientService;
-=======
-import java.util.List;
->>>>>>> origin/main
+
 
 @Controller
 public class ClientController {

@@ -1,6 +1,6 @@
 package be.plomberie.demo.controller;
 
-<<<<<<< HEAD
+
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -13,15 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import be.plomberie.demo.model.Compte;
 import be.plomberie.demo.service.CompteService;
-=======
-import be.plomberie.demo.model.Compte;
-import be.plomberie.demo.service.CompteService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
->>>>>>> origin/main
 
 @Controller
 @RequestMapping("/comptes")

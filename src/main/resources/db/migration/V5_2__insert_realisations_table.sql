@@ -1,0 +1,16 @@
+INSERT INTO realisations (titre, description, date_publication) VALUES
+('Rénovation salle de bain', 'Remplacement complet carrelage et sanitaire', '2024-01-15 10:00:00'),
+('Installation chaudière', 'Pose chaudière gaz à condensation', '2024-02-20 14:30:00'),
+('Dépannage fuite cuisine', 'Remplacement joint robinetterie', '2024-03-05 09:15:00'),
+('Réparation chauffe-eau', 'Changement de résistance et nettoyage du ballon', '2024-03-18 11:45:00'),
+('Installation douche italienne', 'Création et pose d’une douche italienne moderne', '2024-04-02 08:30:00'),
+('Débouchage canalisation', 'Intervention d’urgence sur canalisation bouchée', '2024-04-10 15:00:00'),
+('Pose adoucisseur d\'eau', 'Installation d’un adoucisseur pour améliorer la qualité de l’eau', '2024-04-22 14:20:00'),
+('Entretien chaudière', 'Vérification et nettoyage annuel de la chaudière', '2024-09-05 09:00:00'),
+('Réparation fuite WC', 'Remplacement du joint d’évacuation et réparation du mécanisme', '2024-10-15 13:45:00'),
+('Remplacement robinetterie', 'Changement de mitigeur et robinet de cuisine', '2024-11-25 16:10:00'),
+('Création salle de bain complète', 'Installation complète avec plomberie, carrelage et meubles', '2024-12-02 10:00:00'),
+('Rénovation plomberie cuisine', 'Mise en place de nouvelles canalisations et évacuations', '2025-01-08 14:30:00'),
+('Réparation ballon d’eau chaude', 'Changement du thermostat et du groupe de sécurité', '2025-02-10 08:00:00'),
+('Pose WC suspendu', 'Installation et raccordement d’un WC suspendu moderne', '2025-02-12 11:20:00'),
+('Dépannage pression d’eau', 'Réglage du réducteur de pression et vérification des vannes', '2025-03-25 15:40:00');
