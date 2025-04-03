@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${title}">Le Bon Tuyau - Professionnels de la Plomberie</title>
     <style>
         /* Style global */
@@ -86,28 +87,78 @@
             font-weight: bold;
         }
 
-        /* Galerie d'images */
-        .image-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .gallery-image {
+        /* Carrousel */
+        .carousel {
+            position: relative;
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            max-width: 800px;
+            margin: 30px auto;
+            overflow: hidden;
             border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            aspect-ratio: 16/9;
         }
 
-        .gallery-image:hover {
-            transform: scale(1.03);
+        .carousel-images {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+            width: 100%;
         }
 
-        /* Bouton Demander un devis */
+        .slide {
+            min-width: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        /* Boutons navigation */
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            font-size: 24px;
+            border-radius: 50%;
+            z-index: 10;
+            transition: background-color 0.3s;
+        }
+
+        .prev { left: 20px; }
+        .next { right: 20px; }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Indicateurs */
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ccc;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .indicator.active {
+            background: #005f9e;
+        }
+
+        /* Bouton CTA */
         .cta {
             display: block;
             width: 220px;
@@ -120,18 +171,20 @@
             font-size: 18px;
             border-radius: 5px;
             font-weight: bold;
+            transition: all 0.3s;
         }
 
         .cta:hover {
             background-color: #e65c00;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
         }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 10px;
-            margin-top: 20px;
+            padding: 20px;
+            margin-top: 40px;
             background-color: #333;
             color: white;
             font-size: 14px;
@@ -139,7 +192,6 @@
     </style>
 </head>
 <body>
-
     <!-- Header avec Logo -->
     <header>
         <img src="/images/logo.png" alt="Le Bon Tuyau Logo" class="logo">
@@ -174,14 +226,28 @@
             </p>
         </div>
 
-        <!-- Galerie d'images -->
-        <div class="image-gallery">
-            <img src="/images/im1.jpg" alt="Nos réalisations" class="gallery-image">
-            <img src="/images/im2.jpg" alt="Travaux de plomberie" class="gallery-image">
-            <img src="/images/im3.jpeg" alt="Installation sanitaire" class="gallery-image">
-            <img src="/images/im4.jpeg" alt="Expertise professionnelle" class="gallery-image">
-            <img src="/images/im5.jpeg" alt="Service client" class="gallery-image">
-            <img src="/images/im6.jpg" alt="Équipe qualifiée" class="gallery-image">
+        <!-- Carrousel d'images -->
+        <div class="carousel">
+            <button class="prev">&#10094;</button>
+            <div class="carousel-images">
+                <img src="/images/im1.jpg" class="slide" alt="Nos réalisations">
+                <img src="/images/im2.jpg" class="slide" alt="Travaux de plomberie">
+                <img src="/images/im3.jpeg" class="slide" alt="Installation sanitaire">
+                <img src="/images/im4.jpeg" class="slide" alt="Expertise professionnelle">
+                <img src="/images/im5.jpeg" class="slide" alt="Service client">
+                <img src="/images/im6.jpg" class="slide" alt="Équipe qualifiée">
+            </div>
+            <button class="next">&#10095;</button>
+        </div>
+
+        <!-- Indicateurs -->
+        <div class="carousel-indicators">
+            <span class="indicator active" data-index="0"></span>
+            <span class="indicator" data-index="1"></span>
+            <span class="indicator" data-index="2"></span>
+            <span class="indicator" data-index="3"></span>
+            <span class="indicator" data-index="4"></span>
+            <span class="indicator" data-index="5"></span>
         </div>
 
         <a href="/devis" class="cta">Demander un devis</a>
@@ -191,6 +257,7 @@
     <footer>
         © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
     </footer>
-
+    
+    <script src="/js/carousel.js"></script>
 </body>
 </html>

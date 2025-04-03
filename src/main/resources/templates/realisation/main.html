@@ -2,27 +2,147 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Réalisations</title>
+    <title th:text="${title}">Le Bon Tuyau - Nos Réalisations</title>
+    <style>
+        /* Style global */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background-color: #005f9e;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Logo */
+        .logo {
+            height: 60px;
+            margin-right: 15px;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #00497a;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            color: #FF6F00;
+        }
+
+        /* Conteneur principal */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #00497a;
+            font-family: 'Roboto', sans-serif;
+            font-size: 32px;
+        }
+
+        /* Tableau */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #005f9e;
+            color: white;
+            font-size: 18px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #333;
+            color: white;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Nos oeuvres</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="realisation : ${realisations}">
-                <td th:text="${realisation.idRealisation}"></td>
-                <td th:text="${realisation.titre}"></td>
-                <td th:text="${realisation.description}"></td>
-                <td th:text="${#temporals.format(realisation.datePublication, 'dd/MM/yyyy HH:mm')}"></td>
-            </tr>
-        </tbody>
-    </table>
+
+    <!-- Header avec Logo -->
+    <header>
+        <img src="/images/logo.png" alt="Le Bon Tuyau Logo" class="logo">
+        Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="/">Accueil</a>
+        <a href="/services">Nos Services</a>
+        <a href="/realisations">Réalisations</a>
+        <a href="/devis">Devis</a>
+        <a href="/about">À propos</a>
+        <a href="/contact">Contact</a>
+    </nav>
+
+    <!-- Contenu Réalisations -->
+    <div class="container">
+        <h1 th:text="${title}">Nos Réalisations</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="realisation : ${realisations}">
+                    <td th:text="${realisation.idRealisation}"></td>
+                    <td th:text="${realisation.titre}"></td>
+                    <td th:text="${realisation.description}"></td>
+                    <td th:text="${#temporals.format(realisation.datePublication, 'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
+    </footer>
+
 </body>
 </html>
