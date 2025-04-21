@@ -19,7 +19,7 @@ public class Avis {
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private int idAvis;
+	private Long idAvis;
 	private String contenu;
 	private int note;
 
@@ -28,6 +28,7 @@ public class Avis {
 	 private Client client;
 	 
 	 @ManyToOne
-	 @JoinColumn(name = "realisation_id")
+	 @JoinColumn(name = "realisation_id", nullable = false)
 	 private Realisation realisation;
+
 }

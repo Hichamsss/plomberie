@@ -21,12 +21,12 @@ public class Compte {
 	private String nom;
 	private String email;
 	
-	@Column(name = "mot_de_passe") // Ajoutez cette annotation
+	@Column(name = "mot_de_passe")
 	private String motDePasse;
 	
 	
 	 @OneToOne
-	 @JoinColumn(name = "client_id", unique = true)
+	 @JoinColumn(name = "client_id", nullable = false)
 	 private Client client;
 
 }

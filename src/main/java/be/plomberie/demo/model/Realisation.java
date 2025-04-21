@@ -21,7 +21,7 @@ public class Realisation {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private int idRealisation;
 	private String titre;
-	private String Description;
+	private String description;
 	private LocalDateTime datePublication;
 	
 	 @OneToMany(mappedBy = "realisation", cascade = CascadeType.ALL, orphanRemoval = true)

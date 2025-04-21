@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="services")
-public class PlomberieService {  // 👈 Nouveau nom pour éviter le conflit
+public class PlomberieService { 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idService;
