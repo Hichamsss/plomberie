@@ -1,19 +1,11 @@
 package be.plomberie.demo.controller;
 
-
 import java.util.List;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import be.plomberie.demo.model.Compte;
 import be.plomberie.demo.service.CompteService;
-
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/comptes")
@@ -25,26 +17,42 @@ public class CompteController {
         this.compteService = compteService;
     }
 
-    // 🔹 1. Afficher tous les comptes (Page d'accueil)
+    // Vue HTML
     @GetMapping
     public String listComptes(Model model) {
-        List<Compte> comptes = compteService.getAllComptes();
-        model.addAttribute("comptes", comptes);
+        model.addAttribute("comptes", compteService.getAllComptes());
         model.addAttribute("compte", new Compte());
         return "compte/index";
     }
 
-    // 🔹 2. Ajouter un compte
     @PostMapping("/add")
     public String addCompte(@ModelAttribute("compte") Compte compte) {
         compteService.createCompte(compte);
-        return "redirect:/comptes"; // Redirige vers la liste des comptes après ajout
+        return "redirect:/comptes";
     }
 
-    // 🔹 3. Supprimer un compte
     @GetMapping("/delete/{id}")
     public String deleteCompte(@PathVariable int id) {
         compteService.deleteCompte(id);
-        return "redirect:/comptes"; // Redirection après suppression
+        return "redirect:/comptes";
+    }
+
+    // API JSON
+    @ResponseBody
+    @GetMapping("/api")
+    public List<Compte> getComptesApi() {
+        return compteService.getAllComptes();
+    }
+
+    @ResponseBody
+    @PostMapping("/api")
+    public Compte createCompteApi(@RequestBody Compte compte) {
+        return compteService.createCompte(compte);
+    }
+
+    @ResponseBody
+    @DeleteMapping("/api/{id}")
+    public void deleteCompteApi(@PathVariable int id) {
+        compteService.deleteCompte(id);
     }
 }

@@ -15,7 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor (force = true , access = AccessLevel.PUBLIC) // POTECTED changé en PUBLIC
+@NoArgsConstructor(force = true, access = AccessLevel.PUBLIC)
 @Entity
 @Table(name = "clients") 
 public class Client {
@@ -34,4 +34,12 @@ public class Client {
     
     @OneToOne(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private Compte compte;
+
+    // ✅ Constructeur avec 4 paramètres
+    public Client(String firstname, String lastname, String email, String telephone) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.telephone = telephone;
+    }
 }
