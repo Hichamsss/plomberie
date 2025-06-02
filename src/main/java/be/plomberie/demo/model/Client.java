@@ -35,7 +35,7 @@ public class Client {
     @OneToOne(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private Compte compte;
 
-    // ✅ Constructeur avec 4 paramètres
+    
     public Client(String firstname, String lastname, String email, String telephone) {
         this.firstname = firstname;
         this.lastname = lastname;

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Demandes de Devis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    
+</head>
+<body class="bg-light">
+<div class="container py-4">
+    <h1 class="mb-4">Demandes de Devis</h1>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Message</th>
+            <th>Statut</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="devis : ${demandes}">
+            <td th:text="${devis.nom}">Nom</td>
+            <td th:text="${devis.email}">Email</td>
+            <td th:text="${devis.telephone}">Téléphone</td>
+            <td th:text="${devis.message}">Message</td>
+            <td>
+                <form th:action="@{'/admin/devis/' + ${devis.id} + '/modifier-statut'}" method="post">
+                    <select class="form-select" name="statut" onchange="this.form.submit()">
+                        <option th:value="EN_ATTENTE" th:selected="${devis.statut.name() == 'EN_ATTENTE'}">En attente</option>
+                        <option th:value="TRAITE" th:selected="${devis.statut.name() == 'TRAITE'}">Traité</option>
+                    </select>
+                </form>
+            </td>
+            <td th:text="${#temporals.format(devis.dateSoumission, 'dd/MM/yyyy HH:mm')}">Date</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Demande de devis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #005f9e;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            height: 60px;
+            margin-right: 15px;
+        }
+
+        nav {
+            background-color: #00497a;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            color: #FF6F00;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #00497a;
+            font-size: 32px;
+        }
+
+        form {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #FF6F00;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e65c00;
+        }
+
+        .confirmation {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            background-color: #333;
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <img src="/images/logo.png" alt="Le Bon Tuyau Logo" class="logo">
+    Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque
+</header>
+
+<nav>
+    <a href="/">Accueil</a>
+    <a href="/services">Nos Services</a>
+    <a href="/realisations">Réalisations</a>
+    <a href="/about">À propos</a>
+    <a href="/contact">Contact</a>
+</nav>
+
+<div class="container">
+    <h1>Faire une demande de devis</h1>
+
+    <div th:if="${message}" class="confirmation" th:text="${message}"></div>
+
+    <form th:action="@{/demande}" th:object="${devis}" method="post">
+        <input type="text" th:field="*{nom}" placeholder="Votre nom" required>
+        <input type="email" th:field="*{email}" placeholder="Votre adresse email" required>
+        <input type="tel" th:field="*{telephone}" placeholder="Votre numéro de téléphone" required>
+        <textarea th:field="*{message}" placeholder="Décrivez votre demande..." rows="6" required></textarea>
+        <button type="submit">Envoyer</button>
+    </form>
+</div>
+
+<footer>
+    © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
+</footer>
+</body>
+</html>
