@@ -4,192 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${title}">Le Bon Tuyau - Professionnels de la Plomberie</title>
-    <style>
-        /* Style global */
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-
-        /* Header */
-        header {
-            background-color: #005f9e;
-            padding: 20px;
-            text-align: center;
-            color: white;
-            font-size: 26px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Logo */
-        .logo {
-            height: 60px;
-            margin-right: 15px;
-        }
-
-        /* Navigation */
-        nav {
-            background-color: #00497a;
-            padding: 10px;
-            text-align: center;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 18px;
-        }
-
-        nav a:hover {
-            color: #FF6F00;
-        }
-
-        /* Contenu */
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #00497a;
-            font-family: 'Roboto', sans-serif;
-            font-size: 32px;
-        }
-
-        /* Section professionnelle */
-        .professional-section {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .professional-text {
-            font-size: 18px;
-            line-height: 1.6;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .highlight {
-            color: #005f9e;
-            font-weight: bold;
-        }
-
-        /* Carrousel */
-        .carousel {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin: 30px auto;
-            overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            aspect-ratio: 16/9;
-        }
-
-        .carousel-images {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            height: 100%;
-            width: 100%;
-        }
-
-        .slide {
-            min-width: 100%;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        /* Boutons navigation */
-        .prev, .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 15px;
-            cursor: pointer;
-            font-size: 24px;
-            border-radius: 50%;
-            z-index: 10;
-            transition: background-color 0.3s;
-        }
-
-        .prev { left: 20px; }
-        .next { right: 20px; }
-
-        .prev:hover, .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        /* Indicateurs */
-        .carousel-indicators {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ccc;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .indicator.active {
-            background: #005f9e;
-        }
-
-        /* Bouton CTA */
-        .cta {
-            display: block;
-            width: 220px;
-            text-align: center;
-            margin: 30px auto;
-            padding: 12px;
-            background-color: #FF6F00;
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .cta:hover {
-            background-color: #e65c00;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            background-color: #333;
-            color: white;
-            font-size: 14px;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <!-- Header avec Logo -->
@@ -200,6 +15,10 @@
 
     <!-- Navigation -->
     <nav>
+    	<a href="/urgence" class="urgent-btn">
+		   BESOIN D'UNE INTERVENTION URGENTE?
+		   <img src="/images/click-icon.png" alt="cliquer ici" class="click-icon">
+		</a>
         <a href="/">Accueil</a>
         <a href="/services">Nos Services</a>
         <a href="/realisations">Réalisations</a>
@@ -209,12 +28,12 @@
 
     <!-- Contenu -->
     <div class="container">
-        <h1>Professionnels de la Plomberie depuis 2013</h1>
+        <h1>Professionnels de la Plomberie depuis 2015</h1>
 
         <div class="professional-section">
             <p class="professional-text">
                 <span class="highlight">Le Bon Tuyau</span> est une entreprise de plomberie professionnelle 
-                qui exerce avec passion depuis <span class="highlight">2013</span>. Notre équipe d'experts 
+                qui exerce avec passion depuis <span class="highlight">2015</span>. Notre équipe d'experts 
                 intervient rapidement et efficacement dans <span class="highlight">toute la Belgique</span> 
                 pour répondre à tous vos besoins en plomberie et sanitaire.
             </p>
@@ -251,13 +70,12 @@
 
         <a href="/demande" class="cta">Demander un devis</a>
 
-    </div>
+    	</div>
+    	
+    	<footer>
+    © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
+</footer>
 
-    <!-- Footer -->
-    <footer>
-        © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
-    </footer>
-    
     <script src="/js/carousel.js"></script>
 </body>
 </html>
