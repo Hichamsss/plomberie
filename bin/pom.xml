@@ -39,11 +39,20 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 		<dependency>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 34af47935b1f19504099ebd74d22b7b6ab2b31bc
 	 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 	  			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
 
 		<dependency>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> origin/main
+>>>>>>> 34af47935b1f19504099ebd74d22b7b6ab2b31bc
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
@@ -57,12 +66,25 @@
 		</dependency>
 
 		<dependency>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 34af47935b1f19504099ebd74d22b7b6ab2b31bc
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
 		    <version>8.0.33</version>
 		    <scope>runtime</scope>
 		</dependency>
 
+<<<<<<< HEAD
+=======
+=======
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+>>>>>>> origin/main
+>>>>>>> 34af47935b1f19504099ebd74d22b7b6ab2b31bc
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -73,6 +95,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+<<<<<<< HEAD
 		
 		<dependency>
 		    <groupId>org.springdoc</groupId>
@@ -92,6 +115,8 @@
 		</dependency>
 
 		
+=======
+>>>>>>> 34af47935b1f19504099ebd74d22b7b6ab2b31bc
 	</dependencies>
 
 	<build>
@@ -120,6 +145,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
+<<<<<<< HEAD
 			<plugin>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-maven-plugin</artifactId>
@@ -137,6 +163,8 @@
                 </dependency>
             </dependencies>
         </plugin>
+=======
+>>>>>>> 34af47935b1f19504099ebd74d22b7b6ab2b31bc
 		</plugins>
 	</build>
 

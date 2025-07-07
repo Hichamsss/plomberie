@@ -14,6 +14,7 @@ INSERT INTO `clients` (`id`, `firstname`, `lastname`, `email`, `telephone`) VALU
 (13, 'Hugo', 'Van Damme', 'hugo.vandamme@telenet.be', '+32 488 41 53 72'),
 (14, 'Laura', 'Wouters', 'laura.wouters@skynet.be', '+32 473 65 12 98'),
 (15, 'Bastien', 'Simon', 'bastien.simon@voo.be', '+32 486 24 31 75'),
+<<<<<<< HEAD
 (16, 'Manon', 'Lefebvre', 'manon.lefebvre@gmail.com', '+32 496 78 92 45'),
 (17, 'Hortense', 'Maury', 'peltieretienne@rossi.fr', '+33 (0)8 03 27 09 14'),
 (18, 'Marc', 'Maillard', 'claudinerossi@bouygtel.fr', '0178390556'),
@@ -99,3 +100,6 @@ INSERT INTO `clients` (`id`, `firstname`, `lastname`, `email`, `telephone`) VALU
 (98, 'Samuel', 'Lemaire', 'samuel.lemaire@example.com', '+33 3 45 67 89 01'),
 (99, 'Morgane', 'Dubois', 'morgane.dubois@example.com', '+33 4 56 78 90 12'),
 (100, 'Antoine', 'Goossens', 'antoine.goossens@example.com', '+33 5 67 89 01 23');
+=======
+(16, 'Manon', 'Lefebvre', 'manon.lefebvre@gmail.com', '+32 496 78 92 45');
+>>>>>>> 34af47935b1f19504099ebd74d22b7b6ab2b31bc
