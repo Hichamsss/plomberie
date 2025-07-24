@@ -1,25 +1,39 @@
+# ============================================
+# Ignorer fichier contenant des secrets
+# ============================================
+src/main/resources/application.properties
+
+# ============================================
+# Aide, Build Tools, Maven
+# ============================================
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+# ============================================
+# Eclipse / Spring Tool Suite
+# ============================================
 .apt_generated
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
+# ============================================
+# IntelliJ IDEA
+# ============================================
+.idea/
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# ============================================
+# NetBeans
+# ============================================
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -29,5 +43,14 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
+# ============================================
+# VS Code
+# ============================================
 .vscode/
+
+# ============================================
+# Fichiers temporaires / système
+# ============================================
+*.log
+.DS_Store
+Thumbs.dbsrc/main/resources/application.properties 
