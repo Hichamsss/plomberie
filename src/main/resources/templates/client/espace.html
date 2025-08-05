@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Espace personnel - Le Bon Tuyau</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        nav {
+            background-color: #34495e;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #1abc9c;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #16a085;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            border-bottom: 2px solid #1abc9c;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        thead {
+            background-color: #1abc9c;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+            margin-top: 40px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    👤 Mon Espace Personnel - Le Bon Tuyau
+</header>
+
+<nav>
+    <a href="/">Accueil</a>
+    <a href="/demande">Demander un devis</a>
+    <a href="/urgence">Intervention urgente</a>
+    <a href="/logout">Se déconnecter</a>
+</nav>
+
+<div class="container">
+
+    <h2>Mes Demandes de Devis</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Message</th>
+            <th>Statut</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="devis : ${mesDevis}">
+            <td th:text="${#temporals.format(devis.dateSoumission, 'dd/MM/yyyy HH:mm')}">01/01/2025</td>
+            <td th:text="${devis.message}">Message exemple</td>
+            <td th:text="${devis.statut}">EN_ATTENTE</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Mes Demandes Urgentes</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Disponibilité</th>
+            <th>Statut</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="urgence : ${mesUrgences}">
+            <td th:text="${#temporals.format(urgence.createdAt, 'dd/MM/yyyy HH:mm')}">01/01/2025</td>
+            <td th:text="${urgence.description}">Canalisation bouchée</td>
+            <td th:text="${urgence.disponibilite}">Demain matin</td>
+            <td th:text="${urgence.statut}">TRAITE</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<footer>
+    © 2025 Le Bon Tuyau - Tous droits réservés
+</footer>
+
+</body>
+</html>

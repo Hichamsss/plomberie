@@ -27,13 +27,12 @@ public class AdminDevisController {
 
     // Met à jour le statut d'une demande de devis
     @PostMapping("/{id}/modifier-statut")
-    public String modifierStatut(
-            @PathVariable Long id,
-            @RequestParam("statut") DemandeDevis.Statut statut
-    ) {
+    public String modifierStatut(@PathVariable Long id, @RequestParam("statut") DemandeDevis.Statut statut) {
         DemandeDevis devis = demandeDevisService.getById(id);
-        devis.setStatut(statut);
-        demandeDevisService.save(devis);
+        if (devis != null) {
+            devis.setStatut(statut);
+            demandeDevisService.enregistrer(devis);
+        }
         return "redirect:/admin/devis";
     }
 }
