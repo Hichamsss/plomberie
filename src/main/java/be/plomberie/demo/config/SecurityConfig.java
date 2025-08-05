@@ -16,7 +16,7 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
             )
             .formLogin(form -> form
-                .defaultSuccessUrl("/admin/devis", true)
+                .defaultSuccessUrl("/admin", true)
                 .permitAll()
             )
             .logout(logout -> logout
