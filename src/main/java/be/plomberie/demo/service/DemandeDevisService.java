@@ -17,6 +17,15 @@ public class DemandeDevisService {
     }
 
     public void enregistrer(DemandeDevis devis) {
+        // Initialisation de valeurs par défaut
+        if (devis.getStatut() == null) {
+            devis.setStatut(DemandeDevis.Statut.EN_ATTENTE);
+        }
+
+        if (devis.getClient() == null) {
+            devis.setClient(null); // Client non connecté, on laisse null
+        }
+
         repository.save(devis);
     }
 
