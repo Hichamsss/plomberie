@@ -1,9 +1,9 @@
 package be.plomberie.demo.service;
 
-import be.plomberie.demo.model.Client;
-
 import java.util.List;
 import java.util.Optional;
+
+import be.plomberie.demo.model.Client;
 
 public interface ClientService {
     List<Client> getAllClients();

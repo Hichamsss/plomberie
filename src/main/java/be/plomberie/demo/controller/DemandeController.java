@@ -1,10 +1,13 @@
 package be.plomberie.demo.controller;
 
-import be.plomberie.demo.model.DemandeDevis;
-import be.plomberie.demo.service.DemandeDevisService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import be.plomberie.demo.model.DemandeDevis;
+import be.plomberie.demo.service.DemandeDevisService;
 
 @Controller
 public class DemandeController {

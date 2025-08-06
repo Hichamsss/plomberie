@@ -1,12 +1,19 @@
 package be.plomberie.demo.controller;
 
 import java.util.List;
-import be.plomberie.demo.model.Client;
-import be.plomberie.demo.service.ClientService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import be.plomberie.demo.model.Client;
+import be.plomberie.demo.service.ClientService;
 
 @Controller
 @RequestMapping("/clients")

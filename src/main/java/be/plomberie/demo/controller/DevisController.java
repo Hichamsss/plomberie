@@ -1,11 +1,15 @@
 package be.plomberie.demo.controller;
 
-import be.plomberie.demo.service.DevisService;
-import be.plomberie.demo.model.Devis;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import be.plomberie.demo.model.Devis;
+import be.plomberie.demo.service.DevisService;
 
 @Controller
 @RequestMapping("/devis")

@@ -1,12 +1,13 @@
 package be.plomberie.demo.service;
 
-import be.plomberie.demo.model.Client;
-import be.plomberie.demo.repository.ClientRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import be.plomberie.demo.model.Client;
+import be.plomberie.demo.repository.ClientRepository;
 
 @Service
 public class ClientServiceImpl implements ClientService {
