@@ -29,11 +29,22 @@
     </p>
 
     <form th:action="@{/urgence/payer}" method="post" th:object="${urgenceForm}">
+        <label for="prenom"><strong>Nom + Prénom :</strong></label><br>
+        <input type="text" id="prenom" name="prenom" th:field="*{prenom}" required placeholder="Ex : Jean Dupont"
+               style="width:100%; padding:8px;"><br><br>
+
+        <label for="telephone"><strong>Numéro de téléphone :</strong></label><br>
+        <input type="tel" id="telephone" name="telephone" th:field="*{telephone}" required placeholder="Ex : 0470 00 00 00"
+               style="width:100%; padding:8px;"><br><br>
+
         <label for="disponibilite"><strong>Votre première disponibilité :</strong></label><br>
-        <input type="date" id="disponibilite" name="disponibilite" th:field="*{disponibilite}" required style="width:100%; padding:8px;"><br><br>
+        <input type="date" id="disponibilite" name="disponibilite" th:field="*{disponibilite}" required
+               style="width:100%; padding:8px;"><br><br>
 
         <label for="description"><strong>Description du problème :</strong></label><br>
-        <textarea id="description" name="description" th:field="*{description}" rows="5" style="width:100%; padding:8px;" required placeholder="Ex : fuite d’eau, ballon d’eau chaude en panne, etc."></textarea><br><br>
+        <textarea id="description" name="description" th:field="*{description}" rows="5"
+                  style="width:100%; padding:8px;" required
+                  placeholder="Ex : fuite d’eau, ballon d’eau chaude en panne, etc."></textarea><br><br>
 
         <p style="font-size: 16px; color: #cc0000;">
             ⚠️ Vous serez redirigé(e) vers une page de paiement Stripe pour régler l’acompte de 100€.
