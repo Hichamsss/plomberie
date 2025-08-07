@@ -1,4 +1,4 @@
-package be.plomberie.demo.controller;
+package be.plomberie.demo.service;
 
 import be.plomberie.demo.model.Devis;
 import be.plomberie.demo.service.DevisService;

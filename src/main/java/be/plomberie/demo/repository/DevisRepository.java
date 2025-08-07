@@ -1,13 +1,13 @@
 package be.plomberie.demo.repository;
 
-import java.util.List;
-
+import be.plomberie.demo.model.Devis;
+import be.plomberie.demo.model.Devis.Statut;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import be.plomberie.demo.model.Devis;
+import java.util.List;
 
 @Repository
-public interface DevisRepository extends JpaRepository<Devis, Integer> {
-    List<Devis> findByStatus(String status);
+public interface DevisRepository extends JpaRepository<Devis, Long> {
+    List<Devis> findByStatut(Statut statut);
 }

@@ -1,24 +1,14 @@
 package be.plomberie.demo.model;
 
-
-
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor (force = true , access = AccessLevel.PUBLIC) // POTECTED changé en PUBLIC
+@NoArgsConstructor
 @Entity
 @Table(name = "devis")
 public class Devis {
@@ -26,11 +16,13 @@ public class Devis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idDevis;
-    
+
     private String description;
     private LocalDateTime dateCreation;
-    private String status;
-    
+
+    @Enumerated(EnumType.STRING)
+    private Statut statut;
+
     @ManyToMany
     @JoinTable(
         name = "devis_services",
@@ -39,4 +31,9 @@ public class Devis {
     )
     private List<PlomberieService> services;
 
+    public enum Statut {
+        EN_ATTENTE,
+        EN_COURS,
+        TERMINE
+    }
 }

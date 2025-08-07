@@ -5,12 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import be.plomberie.demo.model.Client;
 import be.plomberie.demo.service.ClientService;
@@ -22,7 +17,7 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-    // Vue HTML
+    // Vue utilisateur
     @GetMapping
     public String afficherClients(Model model) {
         model.addAttribute("clients", clientService.getAllClients());
@@ -38,6 +33,13 @@ public class ClientController {
         Client client = new Client(firstname, lastname, email, telephone);
         clientService.saveClient(client);
         return "redirect:/clients";
+    }
+
+    // Vue admin
+    @GetMapping("/admin/clients")
+    public String afficherClientsAdmin(Model model) {
+        model.addAttribute("clients", clientService.getAllClients());
+        return "admin/clients";
     }
 
     // API JSON
