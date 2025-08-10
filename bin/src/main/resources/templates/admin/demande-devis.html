@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Demandes de devis - Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            font-size: 2em;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid #444;
+            letter-spacing: 1px;
+        }
+
+        table {
+            width: 95%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.05);
+            box-shadow: 0 0 15px rgba(0,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: left;
+        }
+
+        th {
+            background-color: rgba(0,255,255,0.1);
+        }
+
+        tr:hover {
+            background-color: rgba(0,255,255,0.05);
+        }
+
+        form select {
+            padding: 6px;
+            border-radius: 5px;
+            background-color: #203a43;
+            color: #fff;
+            border: 1px solid #008cba;
+        }
+
+        form button {
+            padding: 6px 12px;
+            margin-left: 5px;
+            background-color: #008cba;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #0074a1;
+        }
+    </style>
+</head>
+<body>
+<header>Liste des demandes de devis</header>
+
+<table>
+    <tr>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Message</th>
+        <th>Date</th>
+        <th>Statut</th>
+    </tr>
+    <tr th:each="devis : ${devisList}">
+        <td th:text="${devis.nom}">Nom</td>
+        <td th:text="${devis.email}">Email</td>
+        <td th:text="${devis.telephone}">Téléphone</td>
+        <td th:text="${devis.message}">Message</td>
+        <td th:text="${#dates.format(devis.dateSoumission, 'dd/MM/yyyy HH:mm')}">Date</td>
+        <td>
+            <form th:action="@{'/admin/devis/' + ${devis.id} + '/modifier-statut'}" method="post">
+                <select name="statut">
+                    <option th:selected="${devis.statut == 'EN_ATTENTE'}" value="EN_ATTENTE">🕒 En attente</option>
+                    <option th:selected="${devis.statut == 'EN_COURS'}" value="EN_COURS">⚙️ En cours</option>
+                    <option th:selected="${devis.statut == 'TERMINE'}" value="TERMINE">✅ Terminé</option>
+                </select>
+                <button type="submit">Valider</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

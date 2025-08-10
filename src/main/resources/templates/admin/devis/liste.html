@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Demandes de devis</title>
+  <style>
+    body { margin:0; font-family:'Segoe UI',sans-serif; background:#0f172a; color:#fff; }
+    header { text-align:center; padding:20px; font-size:2em; background:rgba(0,0,0,.3); border-bottom:1px solid #334155; }
+    .container { width: 95%; margin: 24px auto; }
+    table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.04); border-radius:10px; overflow:hidden; }
+    th, td { padding:12px; text-align:left; border-bottom:1px solid rgba(255,255,255,0.08); }
+    th { background-color: rgba(255,255,255,0.06); }
+    tr:hover { background-color: rgba(255,255,255,0.06); }
+    input, textarea, select {
+      width: 100%; padding: 8px 10px; border-radius: 6px; border: none;
+      background: rgba(255,255,255,0.1); color: #fff;
+    }
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.6); }
+    .form-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .form-col { flex: 1; min-width: 150px; }
+    .btn-green { background:#16a34a; color:#fff; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; }
+    .btn-green:hover { background:#15803d; }
+    button { background:#ef4444; color:#fff; border:none; padding:8px 10px; border-radius:6px; cursor:pointer; }
+    button:hover { background:#dc2626; }
+
+    /* --- Select sombre identique à interventions urgentes --- */
+    .select-dark {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background:
+        rgba(255,255,255,0.1)
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>")
+        no-repeat right 10px center;
+      padding-right: 36px;
+      border: 1px solid rgba(255,255,255,0.18);
+      transition: box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
+      color: #fff;
+    }
+    .select-dark:hover {
+      background-color: rgba(255,255,255,0.14);
+      border-color: rgba(255,255,255,0.28);
+      cursor: pointer;
+    }
+    .select-dark:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.35);
+      border-color: #2563eb;
+    }
+    .select-dark::-ms-expand { display: none; }
+    select.select-dark option {
+      background:#0b1220;
+      color:#e5e7eb;
+    }
+
+    /* Masquer le bouton d'enregistrement */
+    td form.statut-form button { display:none !important; }
+  </style>
+</head>
+<body>
+
+<header>Demandes de devis reçues</header>
+
+<div class="container">
+
+  <!-- Formulaire d'ajout -->
+  <form th:action="@{/admin/demandes-devis/ajouter}" th:object="${nouveau}" method="post" class="form-row">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <div class="form-col"><input th:field="*{nom}" placeholder="Nom" required></div>
+    <div class="form-col"><input th:field="*{email}" type="email" placeholder="Email" required></div>
+    <div class="form-col"><input th:field="*{telephone}" placeholder="Téléphone"></div>
+    <div class="form-col"><input th:field="*{message}" placeholder="Message" required></div>
+    <div class="form-col">
+      <select th:field="*{statut}" class="select-dark">
+        <option th:value="EN_ATTENTE">En attente</option>
+        <option th:value="EN_COURS">En cours</option>
+        <option th:value="TRAITE">Traité</option>
+      </select>
+    </div>
+    <div class="form-col" style="flex:0;"><button class="btn-green">+ Ajouter</button></div>
+  </form>
+
+  <!-- Tableau -->
+  <table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Message</th>
+        <th>Statut</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr th:each="devis : ${devis}">
+      <td th:text="${devis.nom}">Nom</td>
+      <td th:text="${devis.email}">Email</td>
+      <td th:text="${devis.telephone}">Téléphone</td>
+      <td th:text="${devis.message}">Message</td>
+      <td>
+        <form th:action="@{|/admin/demandes-devis/${devis.id}/modifier-statut|}" method="post" class="statut-form">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          <select name="statut"
+                  class="select-dark"
+                  onchange="this.form.requestSubmit()">
+            <option value="EN_ATTENTE" th:selected="${devis.statut?.name() == 'EN_ATTENTE'}">En attente</option>
+            <option value="EN_COURS"   th:selected="${devis.statut?.name() == 'EN_COURS'}">En cours</option>
+            <option value="TRAITE"     th:selected="${devis.statut?.name() == 'TRAITE'}">Traité</option>
+          </select>
+        </form>
+      </td>
+      <td>
+        <form th:action="@{|/admin/demandes-devis/${devis.id}/supprimer|}" method="post" onsubmit="return confirm('Supprimer cette demande ?')">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          <button>🗑 Supprimer</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

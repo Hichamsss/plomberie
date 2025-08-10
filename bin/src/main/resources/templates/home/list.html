@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Le Bon Tuyau - Professionnels de la Plomberie</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Header avec Logo -->
+    <header>
+        <img src="/images/logo.png" alt="Le Bon Tuyau Logo" class="logo">
+        Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+    	<a href="/urgence" class="urgent-btn">
+		   BESOIN D'UNE INTERVENTION URGENTE?
+		   <img src="/images/click-icon.png" alt="cliquer ici" class="click-icon">
+		</a>
+        <a href="/">Accueil</a>
+        <a href="/services">Nos Services</a>
+        <a href="/realisations">Réalisations</a>
+        <a href="/about">À propos</a>
+        <a href="/contact">Contact</a>
+    </nav>
+
+    <!-- Contenu -->
+    <div class="container">
+        <h1>Professionnels de la Plomberie depuis 2015</h1>
+
+        <div class="professional-section">
+            <p class="professional-text">
+                <span class="highlight">Le Bon Tuyau</span> est une entreprise de plomberie professionnelle 
+                qui exerce avec passion depuis <span class="highlight">2015</span>. Notre équipe d'experts 
+                intervient rapidement et efficacement dans <span class="highlight">toute la Belgique</span> 
+                pour répondre à tous vos besoins en plomberie et sanitaire.
+            </p>
+            
+            <p class="professional-text">
+                Nous proposons également des <span class="highlight">interventions urgentes</span> 24h/24 
+                pour les situations critiques. Notre engagement : qualité, rapidité et transparence des tarifs.
+            </p>
+        </div>
+
+        <!-- Carrousel d'images -->
+        <div class="carousel">
+            <button class="prev">&#10094;</button>
+            <div class="carousel-images">
+                <img src="/images/im1.jpg" class="slide" alt="Nos réalisations">
+                <img src="/images/im2.jpg" class="slide" alt="Travaux de plomberie">
+                <img src="/images/im3.jpeg" class="slide" alt="Installation sanitaire">
+                <img src="/images/im4.jpeg" class="slide" alt="Expertise professionnelle">
+                <img src="/images/im5.jpeg" class="slide" alt="Service client">
+                <img src="/images/im6.jpg" class="slide" alt="Équipe qualifiée">
+            </div>
+            <button class="next">&#10095;</button>
+        </div>
+
+        <!-- Indicateurs -->
+        <div class="carousel-indicators">
+            <span class="indicator active" data-index="0"></span>
+            <span class="indicator" data-index="1"></span>
+            <span class="indicator" data-index="2"></span>
+            <span class="indicator" data-index="3"></span>
+            <span class="indicator" data-index="4"></span>
+            <span class="indicator" data-index="5"></span>
+        </div>
+
+        <a href="/demande" class="cta">Demander un devis</a>
+
+    	</div>
+    	
+    	<footer>
+    © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
+</footer>
+
+    <script src="/js/carousel.js"></script>
+</body>
+</html>

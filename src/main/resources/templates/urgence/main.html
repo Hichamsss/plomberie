@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Urgence - Le Bon Tuyau</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+    <img src="/images/logo.png" alt="Logo" class="logo">
+    Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque
+</header>
+
+<nav>
+    <a href="/">Accueil</a>
+    <a href="/services">Nos Services</a>
+    <a href="/realisations">Réalisations</a>
+    <a href="/about">À propos</a>
+    <a href="/contact">Contact</a>
+</nav>
+
+<div class="container">
+    <h1>Demande d’intervention urgente</h1>
+
+    <p style="font-size: 18px; margin-bottom: 20px;">
+        Pour toute intervention <strong>urgente</strong>, un <strong>acompte de 100€</strong> est requis.<br>
+        Une fois le paiement effectué, un professionnel vous contactera dans les <strong>24h</strong>.
+    </p>
+
+    <form th:action="@{/urgence/payer}" method="post" th:object="${urgenceForm}">
+        <label for="prenom"><strong>Nom + Prénom :</strong></label><br>
+        <input type="text" id="prenom" name="prenom" th:field="*{prenom}" required placeholder="Ex : Jean Dupont"
+               style="width:100%; padding:8px;"><br><br>
+
+        <label for="telephone"><strong>Numéro de téléphone :</strong></label><br>
+        <input type="tel" id="telephone" name="telephone" th:field="*{telephone}" required placeholder="Ex : 0470 00 00 00"
+               style="width:100%; padding:8px;"><br><br>
+
+        <label for="disponibilite"><strong>Votre première disponibilité :</strong></label><br>
+        <input type="date" id="disponibilite" name="disponibilite" th:field="*{disponibilite}" required
+               style="width:100%; padding:8px;"><br><br>
+
+        <label for="description"><strong>Description du problème :</strong></label><br>
+        <textarea id="description" name="description" th:field="*{description}" rows="5"
+                  style="width:100%; padding:8px;" required
+                  placeholder="Ex : fuite d’eau, ballon d’eau chaude en panne, etc."></textarea><br><br>
+
+        <p style="font-size: 16px; color: #cc0000;">
+            ⚠️ Vous serez redirigé(e) vers une page de paiement Stripe pour régler l’acompte de 100€.
+        </p>
+
+        <button type="submit" class="cta" style="background-color: #007bff; color: white; padding: 12px 20px; border: none; font-size: 16px; cursor: pointer;">
+            ✅ Payer l'acompte et envoyer ma demande
+        </button>
+    </form>
+
+    <div th:if="${confirmation}" style="margin-top: 20px; color: green; font-weight: bold;">
+        ✅ Votre demande a bien été reçue. Nous vous contacterons sous 24h après réception du paiement.
+    </div>
+</div>
+
+<footer>
+    © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
+</footer>
+
+</body>
+</html>

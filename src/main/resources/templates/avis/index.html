@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Liste des avis</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Liste des Avis</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Contenu</th>
+            <th>Note</th>
+        </tr>
+        <tr th:each="avis : ${avisList}">
+            <td th:text="${avis.idAvis}"></td>
+            <td th:text="${avis.contenu}"></td>
+            <td th:text="${avis.note}"></td>
+        </tr>
+    </table>
+</body>
+</html>

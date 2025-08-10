@@ -1,0 +1,22 @@
+[33m16f0f86[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/main[m[33m)[m protection des données sensibles
+[33mcda837c[m ajout intervention urgente
+[33md907a4a[m Resolutions des conflits
+[33mbdd5772[m Initial commit depuis Eclipse
+[33m34af479[m Ajout de l'intégration API météo
+[33macef91f[m Authentification + configuration plateforme administrateur
+[33m844c5b9[m Mise à jour des Controllers + ajout dépendance swagger
+[33mb5e989d[m Conclusion corrections scripts insert
+[33m235664d[m Ajout données SQL + corrections syntaxiques
+[33mb2c720a[m carousel + correction css
+[33m3008a94[m prototype navigable
+[33m79d7a97[m Ajout des relations entre les tables
+[33md161c95[m PlomberieService + repository + service + controller + template + migrations
+[33m531843c[m Realisations + RealisationController + repository + service + migration + template
+[33m7dba112[m Résolution des conflits
+[33m1d003d3[m Devis
+[33md22a224[m création MVC compte
+[33ma33a6f5[m AvisRepository + AvisService + Controller + html
+[33m80d9322[m Creation des modèles
+[33m6902234[m Modèle Client avec correction
+[33mb24179e[m modele client complet + insertion bd
+[33m282e5ef[m Premier commit du projet

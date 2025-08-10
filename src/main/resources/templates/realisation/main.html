@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Le Bon Tuyau - Nos Réalisations</title>
+
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #005f9e;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            height: 60px;
+            margin-right: 15px;
+        }
+
+        nav {
+            background-color: #00497a;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            color: #FF6F00;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #00497a;
+            font-size: 32px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #005f9e;
+            color: white;
+            font-size: 18px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #333;
+            color: white;
+            font-size: 14px;
+        }
+
+        /* Carousel AVANT / APRÈS */
+        .carousel-container {
+            position: relative;
+            margin-top: 50px;
+            overflow: hidden;
+        }
+
+        .carousel-title {
+            text-align: center;
+            color: #00497a;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .carousel-wrapper {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .slide-pair {
+            flex: 0 0 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            background: #fdfdfd;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        .slide-pair img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #005f9e;
+            font-size: 14px;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 6px;
+        }
+
+        .carousel-btn.left { left: 10px; }
+        .carousel-btn.right { right: 10px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="/images/logo.png" alt="Le Bon Tuyau Logo" class="logo">
+    Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque
+</header>
+
+<nav>
+    <a href="/">Accueil</a>
+    <a href="/services">Nos Services</a>
+    <a href="/realisations">Réalisations</a>
+    <a href="/about">À propos</a>
+    <a href="/contact">Contact</a>
+</nav>
+
+<div class="container">
+    <h1 th:text="${title}">Nos Réalisations</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="realisation : ${realisations}">
+            <td th:text="${realisation.idRealisation}"></td>
+            <td th:text="${realisation.titre}"></td>
+            <td th:text="${realisation.description}"></td>
+            <td th:text="${#temporals.format(realisation.datePublication, 'dd/MM/yyyy HH:mm')}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Carousel AVANT / APRÈS -->
+    <div class="carousel-container">
+        <h2 class="carousel-title">Quelques réalisations</h2>
+        <button class="carousel-btn left" onclick="scrollCarousel(-1)">&#10094;</button>
+        <div class="carousel-wrapper">
+            <div class="carousel" id="carousel">
+                <div class="slide-pair">
+                    <span class="label">Avant</span>
+                    <img src="/images/im12.png" alt="Toit avant">
+                    <span class="label">Après</span>
+                    <img src="/images/im6.jpg" alt="Toit après">
+                </div>
+                <div class="slide-pair">
+                    <span class="label">Avant</span>
+                    <img src="/images/im7.jpg" alt="Cuivre avant">
+                    <span class="label">Après</span>
+                    <img src="/images/im8.png" alt="Cuivre après">
+                </div>
+                <div class="slide-pair">
+                    <span class="label">Avant</span>
+                    <img src="/images/im9.jpg" alt="Panneau cassé">
+                    <span class="label">Après</span>
+                    <img src="/images/im10.png" alt="Panneau neuf">
+                </div>
+                <div class="slide-pair">
+				    <span class="label">Avant</span>
+				    <img src="/images/im11.jpeg" alt="Ancien panneau">
+				    <span class="label">Après</span>
+				    <img src="/images/im13.png" alt="Panneau remplacé">
+				</div>
+            </div>
+        </div>
+        <button class="carousel-btn right" onclick="scrollCarousel(1)">&#10095;</button>
+    </div>
+</div>
+
+<footer>
+    © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
+</footer>
+
+<script>
+    let currentIndex = 0;
+
+    function scrollCarousel(direction) {
+        const carousel = document.getElementById("carousel");
+        const slides = document.querySelectorAll(".slide-pair");
+        const totalSlides = slides.length;
+
+        currentIndex += direction;
+        if (currentIndex < 0) currentIndex = totalSlides - 1;
+        if (currentIndex >= totalSlides) currentIndex = 0;
+
+        const slideWidth = slides[0].offsetWidth;
+        carousel.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+    }
+
+    // Auto défilement toutes les 7 secondes
+    setInterval(() => scrollCarousel(1), 7000);
+</script>
+
+</body>
+</html>

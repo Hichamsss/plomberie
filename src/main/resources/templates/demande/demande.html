@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Demande de devis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: 'Open Sans', sans-serif; background:#f4f4f4; margin:0; color:#333; }
+        header { background:#005f9e; padding:20px; text-align:center; color:#fff; font-size:26px; font-weight:bold; display:flex; align-items:center; justify-content:center; }
+        .logo { height:60px; margin-right:15px; }
+        nav { background:#00497a; padding:10px; text-align:center; }
+        nav a { color:#fff; text-decoration:none; margin:0 15px; font-size:18px; }
+        nav a:hover { color:#FF6F00; }
+        .container { width:90%; max-width:800px; margin:auto; padding:20px; }
+        h1 { text-align:center; color:#00497a; font-size:32px; }
+        form { background:#fff; padding:30px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+        input, textarea { width:100%; padding:12px; margin:10px 0; border:1px solid #ccc; border-radius:5px; font-size:16px; }
+        button { background:#FF6F00; color:#fff; border:none; padding:12px 20px; font-size:18px; border-radius:5px; cursor:pointer; }
+        button:hover { background:#e65c00; }
+        .confirmation { background:#d4edda; color:#155724; padding:15px; border-radius:5px; margin:20px 0; text-align:center; }
+        .err { color:#b02a37; font-size:14px; margin-top:-6px; }
+        footer { text-align:center; padding:20px; margin-top:40px; background:#333; color:#fff; font-size:14px; }
+    </style>
+</head>
+<body>
+<header>
+    <img src="/images/logo.png" alt="Le Bon Tuyau Logo" class="logo">
+    Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque
+</header>
+
+<nav>
+    <a href="/">Accueil</a>
+    <a href="/services">Nos Services</a>
+    <a href="/realisations">Réalisations</a>
+    <a href="/about">À propos</a>
+    <a href="/contact">Contact</a>
+    <a href="/demande">Demander un devis</a>
+</nav>
+
+<div class="container">
+    <h1>Faire une demande de devis</h1>
+
+    <div th:if="${message}" class="confirmation" th:text="${message}"></div>
+
+    <form th:action="@{/demande}" th:object="${demande}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <input type="text" th:field="*{nom}" placeholder="Votre nom" required>
+        <div class="err" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"></div>
+
+        <input type="email" th:field="*{email}" placeholder="Votre adresse email" required>
+        <div class="err" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+        <input type="tel" th:field="*{telephone}" placeholder="Votre numéro de téléphone" required>
+        <div class="err" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}"></div>
+
+        <textarea th:field="*{message}" placeholder="Décrivez votre demande..." rows="6" required></textarea>
+        <div class="err" th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></div>
+
+        <button type="submit">Envoyer</button>
+    </form>
+</div>
+
+<footer>
+    © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
+</footer>
+</body>
+</html>
