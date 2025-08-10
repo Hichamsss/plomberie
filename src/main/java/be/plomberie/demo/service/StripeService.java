@@ -8,21 +8,24 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 
-import be.plomberie.demo.model.UrgenceForm;
-
 @Service
 public class StripeService {
 
     @Value("${stripe.secret.key}")
     private String stripeSecretKey;
 
-    public Session creerSessionPaiementUrgence(UrgenceForm urgenceForm) throws StripeException {
+    // URLs paramétrées en dur ici pour aller vite — tu peux les externaliser ensuite
+    private static final String SUCCESS_URL = "http://localhost:8080/urgence?success=true&session_id={CHECKOUT_SESSION_ID}";
+    private static final String CANCEL_URL  = "http://localhost:8080/urgence?canceled=true";
+
+    public Session creerSessionPaiementUrgenceAvecMetadata(Long urgenceId) throws StripeException {
         Stripe.apiKey = stripeSecretKey;
 
         SessionCreateParams params = SessionCreateParams.builder()
             .setMode(SessionCreateParams.Mode.PAYMENT)
-            .setSuccessUrl("http://localhost:8080/urgence?success=true")
-            .setCancelUrl("http://localhost:8080/urgence?canceled=true")
+            .setSuccessUrl(SUCCESS_URL)
+            .setCancelUrl(CANCEL_URL)
+            .putMetadata("urgenceId", String.valueOf(urgenceId))
             .addLineItem(
                 SessionCreateParams.LineItem.builder()
                     .setQuantity(1L)
@@ -34,12 +37,9 @@ public class StripeService {
                                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                     .setName("Acompte intervention urgente")
                                     .build()
-                            )
-                            .build()
-                    )
-                    .build()
-            )
-            .build();
+                            ).build()
+                    ).build()
+            ).build();
 
         return Session.create(params);
     }

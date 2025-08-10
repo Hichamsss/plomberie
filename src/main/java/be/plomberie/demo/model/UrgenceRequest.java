@@ -2,15 +2,14 @@ package be.plomberie.demo.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 @Entity
+@Table(name = "urgences")
 public class UrgenceRequest {
 
     public enum Statut {
@@ -29,65 +28,12 @@ public class UrgenceRequest {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    private LocalDateTime createdAt;
-
     @Enumerated(EnumType.STRING)
-    private Statut statut;
+    private Statut statut = Statut.EN_ATTENTE;
 
-    public UrgenceRequest() {
-        this.createdAt = LocalDateTime.now();
-        this.statut = Statut.EN_ATTENTE;
-    }
+    @Column(name = "stripe_session_id")
+    private String stripeSessionId;
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getDisponibilite() {
-        return disponibilite;
-    }
-
-    public void setDisponibilite(String disponibilite) {
-        this.disponibilite = disponibilite;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Statut getStatut() {
-        return statut;
-    }
-
-    public void setStatut(Statut statut) {
-        this.statut = statut;
-    }
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

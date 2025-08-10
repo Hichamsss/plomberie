@@ -8,7 +8,6 @@ INSERT INTO avis (contenu, note) VALUES
 ('Travail bien fait, très méticuleux.', 5),
 ('Très bon accueil et prestation de grande qualité.', 5),
 ('Parfait du début à la fin, je referai appel à eux!', 5),
-<<<<<<< HEAD
 ('Service impeccable, technicien très compétent.', 5),
 ('Rien à redire, tout était excellent.', 5),
 ('Prestation rapide et efficace, merci!', 5),
@@ -106,6 +105,3 @@ INSERT INTO avis (contenu, note) VALUES
 ('La qualité est leur priorité.', 5),
 ('Expérience client vraiment réussie.', 5),
 ('Tout simplement parfait!', 5);
-=======
-('Service impeccable, technicien très compétent.', 5);
->>>>>>> 34af47935b1f19504099ebd74d22b7b6ab2b31bc

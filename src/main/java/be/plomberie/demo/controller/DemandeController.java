@@ -1,33 +1,40 @@
 package be.plomberie.demo.controller;
 
-import be.plomberie.demo.model.Devis;
-import be.plomberie.demo.service.DevisService;
+import be.plomberie.demo.model.DemandeDevis;
+import be.plomberie.demo.service.DemandeDevisService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class DemandeController {
 
-    private final DevisService devisService;
+    private final DemandeDevisService demandeService;
 
-    public DemandeController(DevisService devisService) {
-        this.devisService = devisService;
+    public DemandeController(DemandeDevisService demandeService) {
+        this.demandeService = demandeService;
     }
 
-    // Affiche le formulaire de demande de devis
     @GetMapping("/demande")
-    public String showForm(Model model) {
-        model.addAttribute("devis", new Devis());
-        return "demande/demande"; // Assure-toi que le fichier templates/demande/demande.html existe
+    public String afficherFormulaire(Model model) {
+        model.addAttribute("demande", new DemandeDevis());
+        return "demande/demande";
     }
 
-    // Traite le formulaire après envoi
     @PostMapping("/demande")
-    public String handleForm(@ModelAttribute("devis") Devis devis, Model model) {
-        devis.setStatut(Devis.Statut.EN_ATTENTE); // Optionnel si déjà par défaut
-        devisService.saveDevis(devis);
-        model.addAttribute("message", "Merci pour votre demande !");
+    public String envoyer(@Valid @ModelAttribute("demande") DemandeDevis demande,
+                          BindingResult binding, Model model) {
+        if (binding.hasErrors()) return "demande/demande";
+        if (demande.getStatut() == null) {
+            demande.setStatut(DemandeDevis.StatutDemande.EN_ATTENTE);
+        }
+        demandeService.creer(demande);
+        model.addAttribute("message", "Merci pour votre demande, nous vous répondrons rapidement !");
+        model.addAttribute("demande", new DemandeDevis()); // reset formulaire
         return "demande/demande";
     }
 }

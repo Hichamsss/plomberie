@@ -14,7 +14,6 @@ INSERT INTO `comptes` (`id`, `nom`, `email`, `mot_de_passe`) VALUES
 (13, 'Hugo Van Damme', 'hugo.vandamme@telenet.be', 'password13'),
 (14, 'Laura Wouters', 'laura.wouters@skynet.be', 'password14'),
 (15, 'Bastien Simon', 'bastien.simon@voo.be', 'password15'),
-<<<<<<< HEAD
 (16, 'Manon Lefebvre', 'manon.lefebvre@gmail.com', 'password16'),
 (17, 'François Garnier', 'francois.garnier@example.com', 'password17'),
 (18, 'Océane Lemoine', 'oceane.lemoine@testmail.com', 'password18'),
@@ -102,6 +101,3 @@ INSERT INTO `comptes` (`id`, `nom`, `email`, `mot_de_passe`) VALUES
 (100, 'Nathalie Lefevre', 'nathalie.lefevre@example.com', 'password100');
 
 
-=======
-(16, 'Manon Lefebvre', 'manon.lefebvre@gmail.com', 'password16');
->>>>>>> 34af47935b1f19504099ebd74d22b7b6ab2b31bc
