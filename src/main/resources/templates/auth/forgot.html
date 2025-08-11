@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Mot de passe oublié</title>
+<style>
+body{margin:0;font-family:'Segoe UI',sans-serif;background:#0f172a;color:#fff;display:grid;place-items:center;height:100vh}
+.card{background:rgba(255,255,255,.05);padding:24px;border-radius:10px;width:360px}
+input{width:100%;padding:10px;border-radius:6px;border:none;background:rgba(255,255,255,.1);color:#fff;margin:6px 0}
+button{width:100%;padding:10px;border:none;background:#3b82f6;color:#fff;border-radius:6px;cursor:pointer;margin-top:10px}
+button:hover{background:#2563eb}
+.info{color:#a7f3d0;margin-top:8px}
+</style></head>
+<body>
+<div class="card">
+  <h2>Mot de passe oublié</h2>
+  <form th:action="@{/mot-de-passe/oublie}" method="post">
+    <input type="email" name="email" placeholder="Votre email" required>
+    <button type="submit">Envoyer le lien</button>
+  </form>
+  <div class="info" th:if="${sent}">Si l'email existe, un lien de réinitialisation a été envoyé.</div>
+  <p style="margin-top:8px;"><a th:href="@{/login}">← Retour</a></p>
+</div>
+</body>
+</html>

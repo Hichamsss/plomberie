@@ -1,7 +1,6 @@
 package be.plomberie.demo.model;
 
 import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,10 +11,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "urgences")
 public class UrgenceRequest {
 
-    public enum Statut {
-        EN_ATTENTE,
-        TRAITE
-    }
+    public enum Statut { EN_ATTENTE, TRAITE }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +19,9 @@ public class UrgenceRequest {
 
     private String prenom;
     private String telephone;
+
+    // Tu as choisi String pour la dispo, on garde tel quel.
+    // Si un jour tu veux formater la date côté Thymeleaf, passe-le en LocalDateTime.
     private String disponibilite;
 
     @Column(columnDefinition = "TEXT")
@@ -36,4 +35,11 @@ public class UrgenceRequest {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "contact_email")
+    private String contactEmail;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 }

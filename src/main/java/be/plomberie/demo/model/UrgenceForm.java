@@ -5,6 +5,7 @@ public class UrgenceForm {
     private String telephone;
     private String disponibilite;
     private String description;
+    private String email; // <-- nouveau champ
 
     // Getters et Setters
     public String getPrenom() {
@@ -37,5 +38,13 @@ public class UrgenceForm {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getEmail() { // <-- getter
+        return email;
+    }
+
+    public void setEmail(String email) { // <-- setter
+        this.email = email;
     }
 }

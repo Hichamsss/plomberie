@@ -1,32 +1,34 @@
 package be.plomberie.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
 @Entity
-@Table(name="comptes")
+@Table(
+    name = "comptes",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uk_comptes_email", columnNames = "email"),
+        @UniqueConstraint(name = "uk_comptes_client", columnNames = "client_id")
+    }
+)
+@Getter @Setter
 public class Compte {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String nom;
-	private String email;
-	
-	@Column(name = "mot_de_passe")
-	private String motDePasse;
-	
-	
-	 @OneToOne
-	 @JoinColumn(name = "client_id", nullable = false)
-	 private Client client;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nom;
+
+    @Column(length = 191, nullable = false)
+    private String email;
+
+    @Column(name = "mot_de_passe", nullable = false)
+    private String motDePasse;
+
+    @OneToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id",
+        foreignKey = @ForeignKey(name = "fk_comptes_client"))
+    private Client client; // autorisé à null
 }

@@ -1,14 +1,11 @@
 package be.plomberie.demo.repository;
 
-import java.util.Optional;
-
+import be.plomberie.demo.model.Compte;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import be.plomberie.demo.model.Compte;
+import java.util.Optional;
 
-public interface CompteRepository extends JpaRepository<Compte, Integer> {
-	
-	Optional<Compte> findByEmail(String email);
-
-
+public interface CompteRepository extends JpaRepository<Compte, Long> {
+    boolean existsByEmail(String email);
+    Optional<Compte> findByEmail(String email);
 }

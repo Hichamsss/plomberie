@@ -3,6 +3,7 @@ package be.plomberie.demo.service;
 import be.plomberie.demo.model.DemandeDevis;
 import be.plomberie.demo.repository.DemandeDevisRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class DemandeDevisService {
         return repository.save(d);
     }
 
+    @Transactional
     public void updateStatut(Long id, String statut) {
         DemandeDevis.StatutDemande cible;
         try {
@@ -32,7 +34,7 @@ public class DemandeDevisService {
         }
         DemandeDevis devis = repository.findById(id).orElseThrow();
         devis.setStatut(cible);
-        repository.save(devis);
+        // pas besoin d'appeler save() ici, le @Transactional flush
     }
 
     public void supprimer(Long id) {

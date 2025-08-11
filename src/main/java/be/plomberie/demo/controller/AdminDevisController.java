@@ -32,7 +32,7 @@ public class AdminDevisController {
             nouveau.setStatut(DemandeDevis.StatutDemande.EN_ATTENTE);
         }
         devisService.creer(nouveau);
-        return "redirect:/admin/devis/demandes-devis";
+        return "redirect:/admin/demandes-devis";
     }
 
     @PostMapping("/{id}/modifier-statut")

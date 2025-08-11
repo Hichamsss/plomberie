@@ -1,59 +1,29 @@
 package be.plomberie.demo.service;
 
-
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import be.plomberie.demo.model.Compte;
 import be.plomberie.demo.repository.CompteRepository;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 @Service
 public class CompteService {
 
-    @Autowired
-    private CompteRepository compteRepository;
+    private final CompteRepository repository;
 
-  
-    public Compte createCompte(Compte compte) {
-        Optional<Compte> existingCompte = compteRepository.findByEmail(compte.getEmail());
-        if (existingCompte.isPresent()) {
-            throw new RuntimeException("Cet email est déjà utilisé !");
-        }
-        return compteRepository.save(compte);
+    public CompteService(CompteRepository repository) {
+        this.repository = repository;
     }
-
-    
-    public Compte updateCompte(int id, Compte compteDetails) {
-        Compte existingCompte = compteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Compte non trouvé avec l'ID : " + id));
-
-        
-        existingCompte.setNom(compteDetails.getNom());
-        existingCompte.setEmail(compteDetails.getEmail());
-        existingCompte.setMotDePasse(compteDetails.getMotDePasse());
-
-        return compteRepository.save(existingCompte);
-    }
-
 
     public List<Compte> getAllComptes() {
-        return compteRepository.findAll();
+        return repository.findAll();
     }
 
-
-    public Optional<Compte> getCompteById(int id) {
-        return compteRepository.findById(id);
+    public Compte createCompte(Compte compte) {
+        return repository.save(compte);
     }
 
-
-    public void deleteCompte(int id) {
-        if (!compteRepository.existsById(id)) {
-            throw new RuntimeException("Compte non trouvé avec l'ID : " + id);
-        }
-        compteRepository.deleteById(id);
+    public void deleteCompte(Long id) {
+        repository.deleteById(id);
     }
 }

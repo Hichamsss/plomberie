@@ -19,9 +19,9 @@ public class DemandeDevis {
     @Enumerated(EnumType.STRING)
     private StatutDemande statut;
 
-    public enum StatutDemande {
-        EN_ATTENTE,
-        EN_COURS,
-        TRAITE
-    }
+    public enum StatutDemande { EN_ATTENTE, EN_COURS, TRAITE }
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 }

@@ -2,14 +2,14 @@ package be.plomberie.demo.controller;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
-
 import be.plomberie.demo.model.UrgenceForm;
 import be.plomberie.demo.model.UrgenceRequest;
 import be.plomberie.demo.model.UrgenceRequest.Statut;
+import be.plomberie.demo.repository.ClientRepository;
 import be.plomberie.demo.service.StripeService;
 import be.plomberie.demo.service.UrgenceRequestService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,91 +18,104 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class UrgenceController {
 
-    @Autowired
-    private StripeService stripeService;
-
+    private final StripeService stripeService;
     private final UrgenceRequestService urgenceService;
+    private final ClientRepository clientRepository;
 
-    public UrgenceController(UrgenceRequestService urgenceService) {
+    public UrgenceController(UrgenceRequestService urgenceService,
+                             StripeService stripeService,
+                             ClientRepository clientRepository) {
         this.urgenceService = urgenceService;
+        this.stripeService = stripeService;
+        this.clientRepository = clientRepository;
     }
 
     // ------ Côté public (paiement) ------
-
     @GetMapping("/urgence")
     public String showUrgenceForm(@RequestParam(required = false) String success,
                                   @RequestParam(name = "session_id", required = false) String sessionId,
+                                  Authentication auth,
                                   Model model) {
         if ("true".equals(success) && sessionId != null) {
-            // Marquer "payée" au retour de Stripe si besoin
             urgenceService.marquerPayeParSession(sessionId);
             model.addAttribute("confirmation", true);
         }
-        model.addAttribute("urgenceForm", new UrgenceForm());
+
+        UrgenceForm form = new UrgenceForm();
+        // Préremplir l'email si l’utilisateur est connecté
+        if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) {
+            form.setEmail(auth.getName());
+        }
+        model.addAttribute("urgenceForm", form);
         return "urgence/main";
     }
 
     @PostMapping("/urgence/payer")
     public RedirectView handleUrgenceForm(@ModelAttribute UrgenceForm form) throws StripeException {
-        // 1) Enregistrer l'urgence en base (EN_ATTENTE)
-        UrgenceRequest u = new UrgenceRequest();
-        u.setPrenom(form.getPrenom());
-        u.setTelephone(form.getTelephone());
-        u.setDisponibilite(form.getDisponibilite()); // ex: "2025-08-10 16:30"
-        u.setDescription(form.getDescription());
-        u.setStatut(Statut.EN_ATTENTE);
-        u = urgenceService.enregistrer(u);
+        UrgenceRequest urgence = new UrgenceRequest();
+        urgence.setPrenom(form.getPrenom());
+        urgence.setTelephone(form.getTelephone());
+        urgence.setDisponibilite(form.getDisponibilite());
+        urgence.setDescription(form.getDescription());
+        urgence.setStatut(Statut.EN_ATTENTE);
 
-        // 2) Créer session Stripe avec metadata (id d'urgence)
-        Session session = stripeService.creerSessionPaiementUrgenceAvecMetadata(u.getId());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) {
+            clientRepository.findByEmail(auth.getName()).ifPresent(c -> {
+                urgence.setClient(c);
+                urgence.setContactEmail(c.getEmail());
+            });
+        }
 
-        // 3) Mémoriser l'id de session Stripe pour le retour
-        urgenceService.enregistrerStripeSession(u.getId(), session.getId());
+        // Si pas connecté ou pas de client trouvé : on prend l’email du formulaire
+        if (urgence.getContactEmail() == null || urgence.getContactEmail().isBlank()) {
+            urgence.setContactEmail(form.getEmail());
+        }
 
-        // 4) Rediriger vers Stripe
+        // Enregistrement AVANT paiement
+        urgenceService.enregistrer(urgence);
+
+        Session session = stripeService.creerSessionPaiementUrgenceAvecMetadata(urgence.getId());
+        urgenceService.enregistrerStripeSession(urgence.getId(), session.getId());
+
         return new RedirectView(session.getUrl());
     }
 
     // ------ Côté admin ------
-
-    // Liste
     @GetMapping("/admin/urgences")
     public String voirToutesLesUrgences(Model model) {
         model.addAttribute("urgences", urgenceService.getAll());
-        return "admin/urgence/urgences"; // <-- garde ta vue existante
+        return "admin/urgence/urgences";
     }
 
-    // Marquer comme traité
     @PostMapping("/admin/urgences/{id}/traiter")
     public String marquerTraite(@PathVariable Long id) {
         urgenceService.marquerTraite(id);
         return "redirect:/admin/urgences";
     }
 
-    // Ajout (formulaire au-dessus du tableau, avec date + heure séparées)
     @PostMapping("/admin/urgences/ajouter")
-    public String ajouterUrgence(
-            @RequestParam String prenom,
-            @RequestParam String telephone,
-            @RequestParam String dateDispo,   // format attendu: yyyy-MM-dd
-            @RequestParam String heureDispo,  // format attendu: HH:mm
-            @RequestParam String description,
-            @RequestParam(defaultValue = "EN_ATTENTE") String statut
-    ) {
-        String disponibilite = dateDispo.trim() + " " + heureDispo.trim(); // "2025-08-10 16:30"
+    public String ajouterUrgence(@RequestParam String prenom,
+                                 @RequestParam String telephone,
+                                 @RequestParam String dateDispo,
+                                 @RequestParam String heureDispo,
+                                 @RequestParam String description,
+                                 @RequestParam(defaultValue = "EN_ATTENTE") String statut,
+                                 @RequestParam(required = false) String contactEmail) {
+        String disponibilite = dateDispo.trim() + " " + heureDispo.trim();
 
-        UrgenceRequest u = new UrgenceRequest();
-        u.setPrenom(prenom);
-        u.setTelephone(telephone);
-        u.setDisponibilite(disponibilite);
-        u.setDescription(description);
-        u.setStatut(Statut.valueOf(statut)); // EN_ATTENTE ou TRAITE
+        UrgenceRequest urgence = new UrgenceRequest();
+        urgence.setPrenom(prenom);
+        urgence.setTelephone(telephone);
+        urgence.setDisponibilite(disponibilite);
+        urgence.setDescription(description);
+        urgence.setStatut(Statut.valueOf(statut));
+        urgence.setContactEmail(contactEmail);
 
-        urgenceService.enregistrer(u);
+        urgenceService.enregistrer(urgence);
         return "redirect:/admin/urgences";
     }
 
-    // Supprimer (corrige l'erreur 404)
     @PostMapping("/admin/urgences/{id}/supprimer")
     public String supprimer(@PathVariable Long id) {
         urgenceService.supprimer(id);
