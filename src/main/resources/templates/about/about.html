@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>À propos - Le Bon Tuyau</title>
     <style>
-        /* Copié de ta home page - même style */
         body {
             font-family: 'Open Sans', sans-serif;
             background-color: #f4f4f4;
@@ -111,6 +110,30 @@
             color: white;
             font-size: 14px;
         }
+
+        /* Effets d'animation au scroll */
+        .scroll-image {
+            opacity: 0;
+            transform: translateX(0);
+            transition: transform 1s ease, opacity 1s ease;
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .from-left {
+            transform: translateX(-150px);
+        }
+
+        .from-right {
+            transform: translateX(150px);
+        }
+
+        .scroll-image.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
     </style>
 </head>
 <body>
@@ -128,7 +151,7 @@
 </nav>
 
 <div class="container">
-    <h1>À propos de Le Bon Tuyau</h1>
+    <h1>À propos du Bon Tuyau</h1>
 
     <div class="professional-section">
         <p class="professional-text">
@@ -148,12 +171,33 @@
         </p>
     </div>
 
-    <a href="/demande" class="cta">Demander un devis</a>
+    <!-- Images avec effet au scroll -->
+    <img src="/images/im14.jpg" alt="Notre équipe au travail" class="scroll-image from-left">
+    <img src="/images/im15.png" alt="Nos réalisations" class="scroll-image from-right">
 
+    <a href="/demande" class="cta">Demander un devis</a>
 </div>
 
 <footer>
     © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
 </footer>
+
+<script>
+    // Détection du scroll pour afficher les images
+    const scrollImages = document.querySelectorAll('.scroll-image');
+
+    function checkScroll() {
+        const triggerBottom = window.innerHeight * 0.85;
+        scrollImages.forEach(img => {
+            const imgTop = img.getBoundingClientRect().top;
+            if (imgTop < triggerBottom) {
+                img.classList.add('show');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', checkScroll);
+    window.addEventListener('load', checkScroll);
+</script>
 </body>
 </html>
