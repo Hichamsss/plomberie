@@ -1,17 +1,30 @@
 package be.plomberie.demo.repository;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
 import be.plomberie.demo.model.Client;
 import be.plomberie.demo.model.UrgenceRequest;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface UrgenceRequestRepository extends JpaRepository<UrgenceRequest, Long> {
 
-    Optional<UrgenceRequest> findByStripeSessionId(String stripeSessionId);
+    // Pour la page admin (uniquement payées)
+    List<UrgenceRequest> findByPayeTrueOrderByIdDesc();
 
-    // 🔹 Recherche par client, téléphone ou email de contact
-    List<UrgenceRequest> findAllByClientOrTelephoneOrContactEmailOrderByCreatedAtDesc(
-            Client client, String telephone, String contactEmail);
+    // Pour "Mon compte" : payées ET liées à l'utilisateur (client OU tel OU email)
+    @Query("""
+           SELECT u FROM UrgenceRequest u
+           WHERE u.paye = true
+             AND ( ( :client IS NOT NULL AND u.client = :client )
+                   OR ( :telephone IS NOT NULL AND u.telephone = :telephone )
+                   OR ( :email IS NOT NULL AND u.contactEmail = :email ) )
+           ORDER BY u.createdAt DESC
+           """)
+    List<UrgenceRequest> findPaidForCurrentUser(
+            @Param("client") Client client,
+            @Param("telephone") String telephone,
+            @Param("email") String email
+    );
 }

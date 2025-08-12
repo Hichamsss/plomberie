@@ -77,9 +77,10 @@ public class AuthController {
     @GetMapping("/mot-de-passe/oublie")
     public String forgotForm() { return "auth/forgot"; }
 
+ // dans forgotSubmit(...)
     @PostMapping("/mot-de-passe/oublie")
     public String forgotSubmit(@RequestParam String email, HttpServletRequest req, Model model) {
-        var compteOpt = compteRepo.findByEmail(email);
+        var compteOpt = compteRepo.findByEmailIgnoreCase(email);  // ✅
         if (compteOpt.isPresent()) {
             var token = new PasswordResetToken();
             token.setCompte(compteOpt.get());
@@ -95,6 +96,7 @@ public class AuthController {
         model.addAttribute("sent", true);
         return "auth/forgot";
     }
+
 
     @GetMapping("/mot-de-passe/reinitialiser")
     public String resetForm(@RequestParam String token, Model model) {

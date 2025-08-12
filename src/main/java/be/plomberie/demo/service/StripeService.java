@@ -1,12 +1,11 @@
 package be.plomberie.demo.service;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 @Service
 public class StripeService {
@@ -14,25 +13,20 @@ public class StripeService {
     @Value("${stripe.secret.key}")
     private String stripeSecretKey;
 
-    // URLs paramétrées en dur ici pour aller vite — tu peux les externaliser ensuite
-    private static final String SUCCESS_URL = "http://localhost:8080/urgence?success=true&session_id={CHECKOUT_SESSION_ID}";
-    private static final String CANCEL_URL  = "http://localhost:8080/urgence?canceled=true";
-
-    public Session creerSessionPaiementUrgenceAvecMetadata(Long urgenceId) throws StripeException {
+    public Session creerSessionPaiementUrgence(String successUrl, String cancelUrl) throws StripeException {
         Stripe.apiKey = stripeSecretKey;
 
         SessionCreateParams params = SessionCreateParams.builder()
             .setMode(SessionCreateParams.Mode.PAYMENT)
-            .setSuccessUrl(SUCCESS_URL)
-            .setCancelUrl(CANCEL_URL)
-            .putMetadata("urgenceId", String.valueOf(urgenceId))
+            .setSuccessUrl(successUrl + "?session_id={CHECKOUT_SESSION_ID}")
+            .setCancelUrl(cancelUrl)
             .addLineItem(
                 SessionCreateParams.LineItem.builder()
                     .setQuantity(1L)
                     .setPriceData(
                         SessionCreateParams.LineItem.PriceData.builder()
                             .setCurrency("eur")
-                            .setUnitAmount(10000L) // 100€ en centimes
+                            .setUnitAmount(10000L) // 100€
                             .setProductData(
                                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                     .setName("Acompte intervention urgente")
@@ -42,5 +36,10 @@ public class StripeService {
             ).build();
 
         return Session.create(params);
+    }
+
+    public Session recupererSession(String sessionId) throws StripeException {
+        Stripe.apiKey = stripeSecretKey;
+        return Session.retrieve(sessionId);
     }
 }

@@ -1,4 +1,4 @@
-// SecurityUserConfig.java
+// src/main/java/be/plomberie/demo/config/SecurityUserConfig.java
 package be.plomberie.demo.config;
 
 import org.springframework.context.annotation.Bean;
@@ -10,9 +10,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 public class SecurityUserConfig {
-
-    @Bean
-    public UserDetailsService users(PasswordEncoder encoder) {
+    @Bean(name = "adminUsers")
+    public UserDetailsService adminUsers(PasswordEncoder encoder) {
         return new InMemoryUserDetailsManager(
             User.withUsername("admin")
                 .password(encoder.encode("password"))

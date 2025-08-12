@@ -4,7 +4,6 @@ import be.plomberie.demo.model.Client;
 import be.plomberie.demo.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,15 +15,15 @@ public class ClientService {
         this.repo = repo;
     }
 
-    public List<Client> getAllClients() {
-        return repo.findAll();
-    }
-
-    public Client save(Client client) {
-        return repo.save(client);
-    }
-
     public Optional<Client> findByEmail(String email) {
-        return repo.findByEmail(email);
+        return repo.findByEmailIgnoreCase(email);
+    }
+
+    public Client save(Client c) {
+        return repo.save(c);
+    }
+
+    public Optional<Client> findByUsername(String username) {
+        return repo.findByUsernameIgnoreCase(username);
     }
 }
