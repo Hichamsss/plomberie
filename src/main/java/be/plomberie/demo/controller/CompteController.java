@@ -10,7 +10,7 @@ import be.plomberie.demo.model.Compte;
 import be.plomberie.demo.service.CompteService;
 
 @Controller
-@RequestMapping("/admin/comptes")
+@RequestMapping("/comptes")
 public class CompteController {
 
     private final CompteService compteService;
@@ -19,27 +19,27 @@ public class CompteController {
         this.compteService = compteService;
     }
 
-    // Vue HTML (admin)
+    // Vue HTML
     @GetMapping
     public String listComptes(Model model) {
         model.addAttribute("comptes", compteService.getAllComptes());
         model.addAttribute("compte", new Compte());
-        return "admin/comptes/index";
+        return "compte/index";
     }
 
     @PostMapping("/add")
     public String addCompte(@ModelAttribute("compte") Compte compte) {
         compteService.createCompte(compte);
-        return "redirect:/admin/comptes";
+        return "redirect:/comptes";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteCompte(@PathVariable Long id) {
         compteService.deleteCompte(id);
-        return "redirect:/admin/comptes";
+        return "redirect:/comptes";
     }
 
-    // API JSON (admin)
+    // API JSON
     @ResponseBody
     @GetMapping("/api")
     public List<Compte> getComptesApi() {

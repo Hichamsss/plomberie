@@ -1,14 +1,11 @@
 package be.plomberie.demo.controller;
 
-import java.util.Collections;
-import java.util.List;
-
 import be.plomberie.demo.model.Client;
-import be.plomberie.demo.model.UrgenceRequest;
 import be.plomberie.demo.repository.ClientRepository;
-import be.plomberie.demo.repository.CompteRepository;
 import be.plomberie.demo.repository.DemandeDevisRepository;
 import be.plomberie.demo.repository.UrgenceRequestRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,43 +15,45 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MonCompteController {
 
     private final ClientRepository clientRepo;
-    private final CompteRepository compteRepo;
     private final DemandeDevisRepository devisRepo;
     private final UrgenceRequestRepository urgRepo;
 
+    @PersistenceContext
+    private EntityManager em; // ✅ ajout minimal
+
     public MonCompteController(ClientRepository clientRepo,
-                               CompteRepository compteRepo,
                                DemandeDevisRepository devisRepo,
                                UrgenceRequestRepository urgRepo) {
         this.clientRepo = clientRepo;
-        this.compteRepo = compteRepo;
         this.devisRepo = devisRepo;
         this.urgRepo = urgRepo;
     }
 
     @GetMapping("/compte")
     public String compte(Authentication auth, Model model) {
-        if (auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getName())) {
-            return "redirect:/login";
-        }
+        em.clear(); // vide le 1er niveau de cache
 
-        String emailOrUsername = auth.getName();
-
-        Client client = clientRepo.findByEmailIgnoreCase(emailOrUsername)
-                .orElseGet(() -> clientRepo.findByUsernameIgnoreCase(emailOrUsername).orElse(null));
-
+        Client client = clientRepo.findByEmail(auth.getName()).orElseThrow();
         model.addAttribute("client", client);
 
-        // Devis : rassemblés par e-mail
-        String email = (client != null) ? client.getEmail() : emailOrUsername;
-        model.addAttribute("mesDevis", devisRepo.findAllByEmailOrderByIdDesc(email));
+        model.addAttribute("mesDevis",
+                devisRepo.findAllByClientOrEmailOrderByIdDesc(client, client.getEmail()));
 
-        // Urgences payées : via repo custom
-        String tel = (client != null) ? client.getTelephone() : null;
-        List<UrgenceRequest> urgencesPayees = urgRepo.findPaidForCurrentUser(client, tel, email);
+        String tel = (client.getTelephone() != null) ? client.getTelephone().trim() : null;
 
-        model.addAttribute("mesUrgences", urgencesPayees != null ? urgencesPayees : Collections.emptyList());
+        // 1) on récupère tes urgences comme d’habitude
+        var urgences = urgRepo.findAllByClientOrTelephoneOrContactEmailOrderByCreatedAtDesc(
+                client, tel, client.getEmail());
 
+        // 2) on force un rechargement depuis la BDD pour CHAQUE entité
+        //    (met à jour le champ statut même si l’instance était périmée)
+        urgences.forEach(u -> {
+            try { em.refresh(u); } catch (Exception ignore) {}
+        });
+
+        model.addAttribute("mesUrgences", urgences);
         return "compte/index";
     }
+
+
 }

@@ -5,6 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${title}">Le Bon Tuyau - Professionnels de la Plomberie</title>
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Au cas où la nav n’est pas en flex dans ton CSS global */
+        nav { display:flex; align-items:center; gap:14px; }
+        .urgent-btn { display:flex; align-items:center; gap:8px; }
+        .login-btn {
+            margin-left:auto;
+            background:#2563eb;
+            color:#fff;
+            padding:6px 12px;
+            border-radius:6px;
+            text-decoration:none;
+            font-weight:600;
+        }
+        .login-btn:hover { filter:brightness(1.1); }
+        .logo { vertical-align:middle; height:40px; }
+        header { display:flex; align-items:center; gap:12px; }
+        .click-icon { height:18px; }
+    </style>
 </head>
 <body>
     <!-- Header avec Logo -->
@@ -15,15 +33,18 @@
 
     <!-- Navigation -->
     <nav>
-    	<a href="/urgence" class="urgent-btn">
-		   BESOIN D'UNE INTERVENTION URGENTE?
-		   <img src="/images/click-icon.png" alt="cliquer ici" class="click-icon">
-		</a>
+        <a href="/urgence" class="urgent-btn">
+            BESOIN D'UNE INTERVENTION URGENTE?
+            <img src="/images/click-icon.png" alt="cliquer ici" class="click-icon">
+        </a>
         <a href="/">Accueil</a>
         <a href="/services">Nos Services</a>
         <a href="/realisations">Réalisations</a>
         <a href="/about">À propos</a>
         <a href="/contact">Contact</a>
+
+        <!-- Bouton Se connecter -->
+        <a th:href="@{/login}" class="login-btn">Se connecter</a>
     </nav>
 
     <!-- Contenu -->
@@ -69,12 +90,11 @@
         </div>
 
         <a href="/demande" class="cta">Demander un devis</a>
-
-    	</div>
-    	
-    	<footer>
-    © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
-</footer>
+    </div>
+    
+    <footer>
+        © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
+    </footer>
 
     <script src="/js/carousel.js"></script>
 </body>

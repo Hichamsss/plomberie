@@ -1,35 +1,63 @@
 package be.plomberie.demo.service;
 
-import be.plomberie.demo.model.UrgenceRequest;
-import be.plomberie.demo.repository.UrgenceRequestRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import be.plomberie.demo.model.UrgenceRequest;
+import be.plomberie.demo.model.UrgenceRequest.Statut;
+import be.plomberie.demo.repository.UrgenceRequestRepository;
 
 @Service
 public class UrgenceRequestService {
 
-    private final UrgenceRequestRepository repo;
+    private final UrgenceRequestRepository repository;
 
-    public UrgenceRequestService(UrgenceRequestRepository repo) {
-        this.repo = repo;
+    public UrgenceRequestService(UrgenceRequestRepository repository) {
+        this.repository = repository;
     }
 
-    public UrgenceRequest save(UrgenceRequest req) {
-        return repo.save(req);
+    @Transactional
+    public UrgenceRequest enregistrer(UrgenceRequest urgence) {
+        return repository.save(urgence);
     }
 
-    public List<UrgenceRequest> getPaidOnly() {
-        return repo.findByPayeTrueOrderByIdDesc();
+    @Transactional(readOnly = true)
+    public List<UrgenceRequest> getAll() {
+        return repository.findAll();
     }
 
-    public void markAsTraite(Long id) {
-        UrgenceRequest u = repo.findById(id).orElseThrow();
-        u.setStatut(UrgenceRequest.Statut.TRAITE);
-        repo.save(u);
+    @Transactional
+    public void marquerTraite(Long id) {
+        UrgenceRequest urgence = repository.findById(id).orElseThrow();
+        urgence.setStatut(Statut.TRAITE);
+        // pas besoin d'appeler save() si l'entité est managée, mais on peut laisser:
+        repository.save(urgence);
     }
 
-    public void delete(Long id) {
-        repo.deleteById(id);
+    @Transactional
+    public void supprimer(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Transactional
+    public void enregistrerStripeSession(Long idUrgence, String sessionId) {
+        UrgenceRequest u = repository.findById(idUrgence).orElseThrow();
+        u.setStripeSessionId(sessionId);
+        repository.save(u);
+    }
+
+    @Transactional
+    public void marquerPayeParSession(String sessionId) {
+        repository.findByStripeSessionId(sessionId).ifPresent(u -> {
+            // ⚠️ Ne PAS réinitialiser le statut ici.
+            // On se contente d'acter le paiement. Si tu veux,
+            // passe en EN_COURS SEULEMENT si le statut est null.
+            if (u.getStatut() == null) {
+                u.setStatut(Statut.EN_ATTENTE); // ou EN_COURS selon ta logique
+            }
+            repository.save(u);
+        });
     }
 }

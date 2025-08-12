@@ -22,7 +22,20 @@
   </style>
 </head>
 <body>
-<header>Mon compte</header>
+<header>
+  Mon compte
+  <form th:action="@{/logout}" method="post" style="float:right; margin-top:-10px;">
+    <button type="submit" style="
+      background:#dc2626;
+      border:none;
+      color:#fff;
+      padding:6px 12px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:0.9em;
+    ">Se déconnecter</button>
+  </form>
+</header>
 
 <div class="wrap">
 
@@ -87,12 +100,13 @@
     <tbody>
       <tr th:each="u : ${mesUrgences}">
         <td th:text="${u.id}">1</td>
-        <td th:text="${u.description} ?: ${u.message}">-</td>
-        <td th:text="${u.disponibilite} ?: '-'">-</td>
-        <td th:text="${u.telephone} ?: '-'">-</td>
+        <td th:text="${u.description != null ? u.description : u.message}">-</td>
+        <td th:text="${u.disponibilite != null ? u.disponibilite : '-'}">-</td>
+        <td th:text="${u.telephone != null ? u.telephone : '-'}">-</td>
         <td>
           <span
-            th:classappend="${u.statut != null and u.statut.name() == 'EN_COURS'} ? 'badge b-encours' : (${u.statut != null and u.statut.name() == 'TRAITE'} ? 'badge b-traite' : 'badge b-attente')"
+            th:classappend="${u.statut != null and u.statut.name() == 'EN_COURS'} ? 'badge b-encours' :
+                            (${u.statut != null and u.statut.name() == 'TRAITE'} ? 'badge b-traite' : 'badge b-attente')"
             th:text="${u.statut != null ? u.statut.name() : 'EN_ATTENTE'}">EN_ATTENTE</span>
         </td>
         <td th:text="${u.stripeSessionId != null and !#strings.isEmpty(u.stripeSessionId) ? 'Payé' : 'Non payé'}">-</td>

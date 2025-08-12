@@ -20,7 +20,8 @@ public class UrgenceRequest {
     private String prenom;
     private String telephone;
 
-    // On garde String pour coller à tes templates/controllers
+    // Tu as choisi String pour la dispo, on garde tel quel.
+    // Si un jour tu veux formater la date côté Thymeleaf, passe-le en LocalDateTime.
     private String disponibilite;
 
     @Column(columnDefinition = "TEXT")
@@ -41,8 +42,4 @@ public class UrgenceRequest {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
-
-    /** Acompte payé (Stripe) */
-    @Column(nullable = false)
-    private boolean paye = false;
 }

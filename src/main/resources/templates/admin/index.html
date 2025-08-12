@@ -82,7 +82,20 @@
     </style>
 </head>
 <body>
-    <header>Bienvenue dans l'espace Admin</header>
+    <header>
+	  Bienvenue dans l'espace Admin
+	  <form th:action="@{/logout}" method="post" style="float:right; margin-top:-10px;">
+	    <button type="submit" style="
+	      background:#dc2626;
+	      border:none;
+	      color:#fff;
+	      padding:6px 12px;
+	      border-radius:6px;
+	      cursor:pointer;
+	      font-size:0.9em;
+	    ">Se déconnecter</button>
+	  </form>
+	</header>
     <div class="container">
         <div class="card">
 		    <h2>Demandes de devis</h2>
@@ -91,10 +104,6 @@
 		<div class="card">
 		    <h2>Interventions urgentes</h2>
 		    <a href="/admin/urgences">Accéder</a>
-		</div>
-		<div class="card">
-		    <h2>Clients</h2>
-		    <a href="/admin/clients">Accéder</a>
 		</div>
     </div>
 </body>
