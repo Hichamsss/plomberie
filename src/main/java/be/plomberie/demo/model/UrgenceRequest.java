@@ -20,8 +20,7 @@ public class UrgenceRequest {
     private String prenom;
     private String telephone;
 
-    // Tu as choisi String pour la dispo, on garde tel quel.
-    // Si un jour tu veux formater la date côté Thymeleaf, passe-le en LocalDateTime.
+
     private String disponibilite;
 
     @Column(columnDefinition = "TEXT")

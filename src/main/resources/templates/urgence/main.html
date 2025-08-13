@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <title>Urgence - Le Bon Tuyau</title>
     <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Flatpickr (date & time) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
+
+    <style>
+        .inline-row { display:flex; gap:10px; }
+        .inline-row > div { flex:1; }
+        @media (max-width:700px){ .inline-row { flex-direction:column; } }
+    </style>
 </head>
 <body>
 
@@ -37,9 +48,20 @@
         <input type="tel" id="telephone" name="telephone" th:field="*{telephone}" required placeholder="Ex : 0470 00 00 00"
                style="width:100%; padding:8px;"><br><br>
 
-        <label for="disponibilite"><strong>Votre première disponibilité :</strong></label><br>
-        <input type="date" id="disponibilite" name="disponibilite" th:field="*{disponibilite}" required
-               style="width:100%; padding:8px;"><br><br>
+        <label><strong>Votre première disponibilité (date + heure) :</strong></label>
+        <div class="inline-row">
+            <div>
+                <!-- Date (flatpickr) -->
+                <input type="text" id="dateDispo" name="disponibilite" th:field="*{disponibilite}" required
+                       placeholder="Choisir une date" style="width:100%; padding:8px;">
+            </div>
+            <div>
+                <!-- Heure (flatpickr) -->
+                <input type="text" id="heureDispo" name="heure" required
+                       placeholder="Choisir une heure" style="width:100%; padding:8px;">
+            </div>
+        </div>
+        <br>
 
         <label for="description"><strong>Description du problème :</strong></label><br>
         <textarea id="description" name="description" th:field="*{description}" rows="5"
@@ -63,6 +85,27 @@
 <footer>
     © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
 </footer>
+
+<script>
+  // Date (calendrier)
+  flatpickr('#dateDispo', {
+    locale: 'fr',
+    dateFormat: 'Y-m-d',
+    defaultDate: new Date(),
+    allowInput: true
+  });
+
+  // Heure (time picker 24h, pas de calendrier)
+  flatpickr('#heureDispo', {
+    locale: 'fr',
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: 'H:i',
+    time_24hr: true,
+    minuteIncrement: 15,
+    defaultDate: new Date()
+  });
+</script>
 
 </body>
 </html>
