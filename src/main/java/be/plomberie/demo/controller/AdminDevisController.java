@@ -22,7 +22,7 @@ public class AdminDevisController {
     public String afficherDevis(Model model) {
         List<DemandeDevis> liste = devisService.getAll();
         model.addAttribute("devis", liste);
-        model.addAttribute("nouveau", new DemandeDevis()); // pour la ligne d’ajout
+        model.addAttribute("nouveau", new DemandeDevis());
         return "admin/devis/liste";
     }
 

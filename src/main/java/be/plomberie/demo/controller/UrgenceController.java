@@ -43,6 +43,7 @@ public class UrgenceController {
                 UrgenceRequest urgence = new UrgenceRequest();
                 urgence.setPrenom(session.getMetadata().get("prenom"));
                 urgence.setTelephone(session.getMetadata().get("telephone"));
+                // Ici, "disponibilite" est déjà la date + heure que l'on a injectées côté POST
                 urgence.setDisponibilite(session.getMetadata().get("disponibilite"));
                 urgence.setDescription(session.getMetadata().get("description"));
                 urgence.setContactEmail(session.getMetadata().get("email"));
@@ -77,15 +78,21 @@ public class UrgenceController {
     public RedirectView handleUrgenceForm(@ModelAttribute UrgenceForm form) throws StripeException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String emailForm = form.getEmail();
-
         if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) {
             emailForm = auth.getName();
+        }
+
+        // ✅ Combine "YYYY-MM-DD" + "HH:mm" -> "YYYY-MM-DD HH:mm"
+        String dispoComplet = (form.getDisponibilite() == null ? "" : form.getDisponibilite().trim());
+        String heure = (form.getHeure() == null ? "" : form.getHeure().trim());
+        if (!heure.isEmpty()) {
+            dispoComplet = (dispoComplet + " " + heure).trim();
         }
 
         Session session = stripeService.creerSessionPaiementUrgenceAvecMetadataTemp(
                 form.getPrenom(),
                 form.getTelephone(),
-                form.getDisponibilite(),
+                dispoComplet,               // <-- on envoie bien date+heure
                 form.getDescription(),
                 emailForm
         );
@@ -114,6 +121,7 @@ public class UrgenceController {
                                  @RequestParam String description,
                                  @RequestParam(defaultValue = "EN_ATTENTE") String statut,
                                  @RequestParam(required = false) String contactEmail) {
+
         String disponibilite = dateDispo.trim() + " " + heureDispo.trim();
 
         UrgenceRequest urgence = new UrgenceRequest();

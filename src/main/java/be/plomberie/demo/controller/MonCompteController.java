@@ -41,7 +41,7 @@ public class MonCompteController {
 
         String tel = (client.getTelephone() != null) ? client.getTelephone().trim() : null;
 
-        // 1) on récupère tes urgences comme d’habitude
+        // 1) on récupère les urgences comme d’habitude
         var urgences = urgRepo.findAllByClientOrTelephoneOrContactEmailOrderByCreatedAtDesc(
                 client, tel, client.getEmail());
 
