@@ -1,5 +1,20 @@
 package be.plomberie.demo.controller;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional; // <-- Spring @Transactional
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import be.plomberie.demo.model.Client;
 import be.plomberie.demo.model.Compte;
 import be.plomberie.demo.model.PasswordResetToken;
@@ -8,17 +23,11 @@ import be.plomberie.demo.repository.CompteRepository;
 import be.plomberie.demo.repository.PasswordResetTokenRepository;
 import be.plomberie.demo.service.MailService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Controller
 public class AuthController {
+
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
     private final ClientRepository clientRepo;
     private final CompteRepository compteRepo;
@@ -63,7 +72,7 @@ public class AuthController {
         // Création du client
         clientRepo.save(client);
 
-        // Création du compte (pas de champ role dans Compte -> rôle géré côté Security par défaut USER)
+        // Création du compte
         Compte c = new Compte();
         c.setEmail(email);
         c.setMotDePasse(encoder.encode(password));
@@ -78,9 +87,13 @@ public class AuthController {
     public String forgotForm() { return "auth/forgot"; }
 
     @PostMapping("/mot-de-passe/oublie")
+    @Transactional
     public String forgotSubmit(@RequestParam String email, HttpServletRequest req, Model model) {
         var compteOpt = compteRepo.findByEmail(email);
         if (compteOpt.isPresent()) {
+
+            tokenRepo.deleteAllExpired(LocalDateTime.now());
+
             var token = new PasswordResetToken();
             token.setCompte(compteOpt.get());
             token.setToken(UUID.randomUUID().toString());
@@ -89,8 +102,14 @@ public class AuthController {
 
             String base = req.getRequestURL().toString().replace(req.getRequestURI(), "");
             String link = base + "/mot-de-passe/reinitialiser?token=" + token.getToken();
-            mail.send(email, "Réinitialisation de mot de passe",
-                    "Bonjour,\n\nCliquez pour réinitialiser : " + link + "\n(Valide 2h)\n\nLe Bon Tuyau");
+
+            try {
+                mail.send(email, "Réinitialisation de mot de passe",
+                        "Bonjour,\n\nCliquez pour réinitialiser : " + link + "\n(Valide 2h)\n\nLe Bon Tuyau");
+            } catch (Exception ex) {
+                log.warn("Echec d'envoi de l'email de reset vers {}: {}", email, ex.getMessage());
+                // on n'échoue pas la requête : l’UX reste "lien envoyé"
+            }
         }
         model.addAttribute("sent", true);
         return "auth/forgot";

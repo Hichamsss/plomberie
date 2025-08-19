@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      th:attr="lang=${#locale}">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${title}">Le Bon Tuyau</title>
+    <title th:text="${title} ?: #{site.title}">Le Bon Tuyau</title>
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+      .lang { position: absolute; top: 10px; right: 16px; font-size: .95rem; }
+      .lang a { text-decoration: none; margin-left: 6px; opacity:.9 }
+    </style>
 </head>
 <body>
 
 <header>
     <img src="/images/logo.png" alt="Le Bon Tuyau Logo" class="logo">
-    Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque
+    <span th:text="#{site.tagline}">Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque</span>
+
+    <!-- Sélecteur de langue (apparaît partout grâce au layout) -->
+    <div class="lang">
+      <a th:href="@{__${#httpServletRequest.requestURI}__(lang='fr')}">FR</a> |
+      <a th:href="@{__${#httpServletRequest.requestURI}__(lang='en')}">EN</a> |
+      <a th:href="@{__${#httpServletRequest.requestURI}__(lang='nl_BE')}">NL</a>
+    </div>
 </header>
 
 <nav>
-    <a href="/">Accueil</a>
-    <a href="/services">Nos Services</a>
-    <a href="/realisations">Réalisations</a>
-    <a href="/about">À propos</a>
-    <a href="/contact">Contact</a>
+    <a th:href="@{/}" th:text="#{nav.home}">Accueil</a>
+    <a th:href="@{/services}" th:text="#{nav.services}">Nos Services</a>
+    <a th:href="@{/realisations}" th:text="#{nav.works}">Réalisations</a>
+    <a th:href="@{/about}" th:text="#{nav.about}">À propos</a>
+    <a th:href="@{/contact}" th:text="#{nav.contact}">Contact</a>
 </nav>
 
 <div class="container" layout:fragment="content">
@@ -27,7 +38,7 @@
 </div>
 
 <footer>
-    © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
+    <span th:text="#{site.footer}">© 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A</span>
 </footer>
 
 </body>
