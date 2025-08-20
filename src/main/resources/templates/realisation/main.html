@@ -1,381 +1,162 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${title}">Le Bon Tuyau - Nos Réalisations</title>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: base(
+         pageTitle=#{title.realisations} ?: 'Nos Réalisations - Le Bon Tuyau',
+         body=~{::content},
+         showUrgent=${false},
+         extraHead=~{::extraHead},
+         extraScripts=~{::extraScripts}
+      )}">
 
-    <style>
-        /* ==== Styles généraux (inchangés) ==== */
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background-color: #f4f4f4; /* fond blanc cassé conservé */
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-        header {
-            background-color: #005f9e;
-            padding: 20px;
-            text-align: center;
-            color: white;
-            font-size: 26px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .logo { height: 60px; margin-right: 15px; }
-        nav { background-color: #00497a; padding: 10px; text-align: center; }
-        nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 18px; }
-        nav a:hover { color: #FF6F00; }
-        .container {
-            width: 90%; max-width: 1200px; margin: auto; padding: 20px;
-            background: white; border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
-        }
-        h1 { text-align: center; color: #00497a; font-size: 32px; }
-        footer {
-            text-align: center; padding: 10px; margin-top: 20px;
-            background-color: #333; color: white; font-size: 14px;
-        }
+<extraHead>
+  <style>
+    /* ====== CAROUSEL "RÉALISATIONS" — NAMESPACÉ POUR ÉVITER LES CONFLITS ====== */
+    .reel-container{position:relative;margin-top:30px;overflow:hidden}
+    .reel-title{text-align:center;color:#00497a;font-size:24px;margin-bottom:20px}
+    .reel-viewport{overflow:hidden;width:100%}
+    .reel-track{
+      display:flex;
+      width:100%;
+      translate:0; /* reset */
+      transition:transform .5s ease-in-out;
+      will-change:transform;
+    }
+    .reel-slide{
+      flex:0 0 100%;
+      width:100%;
+      display:flex;flex-direction:column;align-items:center;gap:10px;
+      padding:20px;background:#fdfdfd;border-radius:8px;box-shadow:0 0 5px rgba(0,0,0,.1);
+      box-sizing:border-box;
+    }
+    .reel-slide img{width:100%;max-height:220px;object-fit:cover;border-radius:6px}
+    .reel-label{font-weight:bold;color:#005f9e;font-size:14px}
+    .reel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);color:#fff;border:none;padding:10px;font-size:24px;cursor:pointer;z-index:10;border-radius:6px}
+    .reel-btn.left{left:10px} .reel-btn.right{right:10px}
 
-        /* ==== Carousel AVANT / APRÈS (existant) ==== */
-        .carousel-container { position: relative; margin-top: 30px; overflow: hidden; }
-        .carousel-title { text-align: center; color: #00497a; font-size: 24px; margin-bottom: 20px; }
-        .carousel-wrapper { overflow: hidden; width: 100%; }
-        .carousel { display: flex; transition: transform 0.5s ease-in-out; width: 100%; }
-        .slide-pair {
-            flex: 0 0 100%; display: flex; flex-direction: column; align-items: center;
-            gap: 10px; padding: 20px; background: #fdfdfd; border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
-        }
-        .slide-pair img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 6px; }
-        .label { font-weight: bold; color: #005f9e; font-size: 14px; }
-        .carousel-btn {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background-color: rgba(0,0,0,0.5); color: white; border: none;
-            padding: 10px; font-size: 24px; cursor: pointer; z-index: 10; border-radius: 6px;
-        }
-        .carousel-btn.left { left: 10px; }
-        .carousel-btn.right { right: 10px; }
+    /* ====== GALERIE FUTURISTE (inchangée) ====== */
+    .futura-head{margin:40px 0 16px;text-align:center;font-size:26px;color:#00497a;letter-spacing:.5px;}
+    .futura-gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;perspective:1200px;margin-top:22px;}
+    .holo-card{grid-column:span 4;position:relative;border-radius:14px;overflow:hidden;isolation:isolate;transform-style:preserve-3d;transition:transform .2s ease,box-shadow .2s ease;background:#fff;box-shadow:0 10px 20px rgba(0,0,0,.08);opacity:0;transform:translateY(20px);}
+    .holo-card.wide{grid-column:span 8;} .holo-card.tall{grid-column:span 6;}
+    .holo-card::before{content:"";position:absolute;inset:0;padding:2px;border-radius:14px;background:conic-gradient(from 0deg,#00d4ff,#6a5cff,#00ffa3,#00d4ff);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 6s linear infinite;opacity:.65;pointer-events:none;}
+    .holo-glow{position:absolute;inset:-30%;background:radial-gradient(40% 30% at var(--mx,50%) var(--my,50%),rgba(106,92,255,.22),transparent 60%),radial-gradient(30% 20% at calc(100% - var(--mx,50%)) calc(100% - var(--my,50%)),rgba(0,212,255,.16),transparent 60%);filter:blur(16px);transition:opacity .25s ease;opacity:0;pointer-events:none;}
+    .holo-inner{position:relative;z-index:1;aspect-ratio:16/11;overflow:hidden;border-radius:12px;margin:3px;}
+    .holo-inner img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 600ms cubic-bezier(.2,.7,.2,1);}
+    .holo-card:hover .holo-inner img{transform:scale(1.08);} .holo-card:hover{box-shadow:0 18px 40px rgba(0,0,0,.12);}
+    .scanlines::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,rgba(0,0,0,0.015),rgba(0,0,0,0.015) 2px,transparent 2px,transparent 4px);mix-blend-mode:multiply;opacity:.5;pointer-events:none;}
+    .scanlines::before{content:"";position:absolute;left:0;right:0;height:60px;top:-60px;background:linear-gradient(to bottom,rgba(0,212,255,.22),transparent);animation:scan 3.8s linear infinite;z-index:2;pointer-events:none;}
+    .holo-card.in-view{opacity:1;transform:translateY(0);transition:transform .6s ease,opacity .6s ease;}
+    @media (max-width:1024px){.holo-card,.holo-card.tall,.holo-card.wide{grid-column:span 6;}}
+    @media (max-width:640px){.holo-card,.holo-card.tall,.holo-card.wide{grid-column:span 12;}}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    @keyframes scan{0%{top:-60px;opacity:0;}12%{opacity:.6;}50%{top:100%;opacity:.2;}100%{top:calc(100% + 60px);opacity:0;}}
+  </style>
+</extraHead>
 
-        /* ==== Galerie futuriste (NOUVEAU) ==== */
-        .futura-head {
-            margin: 40px 0 16px; text-align: center;
-            font-size: 26px; color: #00497a; letter-spacing: .5px;
-        }
-        .futura-gallery {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 16px;
-            perspective: 1200px;
-            margin-top: 22px;
-        }
+<content>
+  <h1 th:text="#{title.realisations}">Nos Réalisations</h1>
 
-        .holo-card {
-            grid-column: span 4; /* 3 par ligne en desktop */
-            position: relative;
-            border-radius: 14px;
-            overflow: hidden;
-            isolation: isolate;
-            transform-style: preserve-3d;
-            transition: transform .2s ease, box-shadow .2s ease;
-            background: #ffffff;
-            box-shadow: 0 10px 20px rgba(0,0,0,.08);
-            opacity: 0; transform: translateY(20px);
-        }
-        .holo-card.wide { grid-column: span 8; }
-        .holo-card.tall { grid-column: span 6; }
+  <!-- ====== CAROUSEL AVANT / APRÈS (indépendant du CSS global) ====== -->
+  <div class="reel-container">
+    <h2 class="reel-title" th:text="#{realisations.carousel.title}">Quelques réalisations</h2>
 
-        /* Bords néon animés (subtils) */
-        .holo-card::before {
-            content: "";
-            position: absolute; inset: 0;
-            padding: 2px;
-            border-radius: 14px;
-            background: conic-gradient(from 0deg, #00d4ff, #6a5cff, #00ffa3, #00d4ff);
-            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-            -webkit-mask-composite: xor;
-                    mask-composite: exclude;
-            animation: spin 6s linear infinite;
-            opacity: .65;
-            pointer-events: none;
-        }
+    <button class="reel-btn left" onclick="reelScroll(-1)" aria-label="Précédent">&#10094;</button>
 
-        /* Reflet holographique en survol */
-        .holo-glow {
-            position: absolute; inset: -30%;
-            background:
-                radial-gradient(40% 30% at var(--mx,50%) var(--my,50%), rgba(106,92,255,.22), transparent 60%),
-                radial-gradient(30% 20% at calc(100% - var(--mx,50%)) calc(100% - var(--my,50%)), rgba(0,212,255,.16), transparent 60%);
-            filter: blur(16px);
-            transition: opacity .25s ease;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .holo-inner {
-            position: relative; z-index: 1;
-            aspect-ratio: 16/11;
-            overflow: hidden; border-radius: 12px; margin: 3px;
-        }
-        .holo-inner img {
-            width: 100%; height: 100%; object-fit: cover;
-            transform: scale(1.02);
-            transition: transform 600ms cubic-bezier(.2,.7,.2,1);
-        }
-        .holo-card:hover .holo-inner img { transform: scale(1.08); }
-        .holo-card:hover { box-shadow: 0 18px 40px rgba(0,0,0,.12); }
-
-        /* Lignes “scan” animées (ultra légères) */
-        .scanlines::after {
-            content: "";
-            position: absolute; inset: 0;
-            background: repeating-linear-gradient(
-                to bottom,
-                rgba(0,0,0,0.015), rgba(0,0,0,0.015) 2px,
-                transparent 2px, transparent 4px
-            );
-            mix-blend-mode: multiply;
-            opacity: .5;
-            pointer-events: none;
-        }
-        .scanlines::before {
-            content: "";
-            position: absolute; left: 0; right: 0; height: 60px; top: -60px;
-            background: linear-gradient(to bottom, rgba(0,212,255,.22), transparent);
-            animation: scan 3.8s linear infinite;
-            z-index: 2; pointer-events: none;
-        }
-
-        /* Révélation en scroll */
-        .holo-card.in-view { opacity: 1; transform: translateY(0); transition: transform .6s ease, opacity .6s ease; }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .holo-card, .holo-card.tall, .holo-card.wide { grid-column: span 6; }
-        }
-        @media (max-width: 640px) {
-            .holo-card, .holo-card.tall, .holo-card.wide { grid-column: span 12; }
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes scan {
-            0% { top: -60px; opacity: 0; }
-            12% { opacity: .6; }
-            50% { top: 100%; opacity: .2; }
-            100% { top: calc(100% + 60px); opacity: 0; }
-        }
-    </style>
-</head>
-<body>
-
-<header>
-    <img src="/images/logo.png" alt="Le Bon Tuyau Logo" class="logo">
-    Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque
-</header>
-
-<nav>
-    <a href="/">Accueil</a>
-    <a href="/services">Nos Services</a>
-    <a href="/realisations">Réalisations</a>
-    <a href="/about">À propos</a>
-    <a href="/contact">Contact</a>
-</nav>
-
-<div class="container">
-    <h1 th:text="${title}">Nos Réalisations</h1>
-
-    <!-- Carousel AVANT / APRÈS (existant) -->
-    <div class="carousel-container">
-        <h2 class="carousel-title">Quelques réalisations</h2>
-        <button class="carousel-btn left" onclick="scrollCarousel(-1)" aria-label="Précédent">&#10094;</button>
-        <div class="carousel-wrapper">
-            <div class="carousel" id="carousel">
-                <div class="slide-pair">
-                    <span class="label">Avant</span>
-                    <img src="/images/im12.png" alt="Toit avant" loading="lazy" decoding="async">
-                    <span class="label">Après</span>
-                    <img src="/images/im6.jpg" alt="Toit après" loading="lazy" decoding="async">
-                </div>
-                <div class="slide-pair">
-                    <span class="label">Avant</span>
-                    <img src="/images/im7.jpg" alt="Cuivre avant" loading="lazy" decoding="async">
-                    <span class="label">Après</span>
-                    <img src="/images/im8.png" alt="Cuivre après" loading="lazy" decoding="async">
-                </div>
-                <div class="slide-pair">
-                    <span class="label">Avant</span>
-                    <img src="/images/im9.jpg" alt="Panneau cassé" loading="lazy" decoding="async">
-                    <span class="label">Après</span>
-                    <img src="/images/im10.png" alt="Panneau neuf" loading="lazy" decoding="async">
-                </div>
-                <div class="slide-pair">
-                    <span class="label">Avant</span>
-                    <img src="/images/im11.jpeg" alt="Ancien panneau" loading="lazy" decoding="async">
-                    <span class="label">Après</span>
-                    <img src="/images/im13.png" alt="Panneau remplacé" loading="lazy" decoding="async">
-                </div>
-            </div>
+    <div class="reel-viewport">
+      <div class="reel-track" id="reelTrack">
+        <div class="reel-slide">
+          <span class="reel-label" th:text="#{label.before}">Avant</span>
+          <img src="/images/im12.png" alt="Toit avant" loading="lazy" decoding="async">
+          <span class="reel-label" th:text="#{label.after}">Après</span>
+          <img src="/images/im6.jpg" alt="Toit après" loading="lazy" decoding="async">
         </div>
-        <button class="carousel-btn right" onclick="scrollCarousel(1)" aria-label="Suivant">&#10095;</button>
+
+        <div class="reel-slide">
+          <span class="reel-label" th:text="#{label.before}">Avant</span>
+          <img src="/images/im7.jpg" alt="Cuivre avant" loading="lazy" decoding="async">
+          <span class="reel-label" th:text="#{label.after}">Après</span>
+          <img src="/images/im8.png" alt="Cuivre après" loading="lazy" decoding="async">
+        </div>
+
+        <div class="reel-slide">
+          <span class="reel-label" th:text="#{label.before}">Avant</span>
+          <img src="/images/im9.jpg" alt="Panneau cassé" loading="lazy" decoding="async">
+          <span class="reel-label" th:text="#{label.after}">Après</span>
+          <img src="/images/im10.png" alt="Panneau neuf" loading="lazy" decoding="async">
+        </div>
+
+        <div class="reel-slide">
+          <span class="reel-label" th:text="#{label.before}">Avant</span>
+          <img src="/images/im11.jpeg" alt="Ancien panneau" loading="lazy" decoding="async">
+          <span class="reel-label" th:text="#{label.after}">Après</span>
+          <img src="/images/im13.png" alt="Panneau remplacé" loading="lazy" decoding="async">
+        </div>
+      </div>
     </div>
 
-    <!-- ===== Galerie FUTURISTE : IMAGES 16 → 22 (sans texte sur les images) ===== -->
-    <h2 class="futura-head">Zoom sur nos chantiers récents</h2>
+    <button class="reel-btn right" onclick="reelScroll(1)" aria-label="Suivant">&#10095;</button>
+  </div>
 
-    <section class="futura-gallery" id="futuraGallery">
-        <!-- im16 -->
-        <article class="holo-card scanlines">
-            <div class="holo-glow"></div>
-            <div class="holo-inner">
-                <img src="/images/im16.jpg"
-                     data-base="/images/im16"
-                     data-fallback="jpeg,png,webp"
-                     alt="Réalisation 16" loading="lazy" decoding="async"
-                     onerror="fallbackExt(this)">
-            </div>
-        </article>
+  <!-- ====== GALERIE ====== -->
+  <h2 class="futura-head" th:text="#{realisations.zoom.title}">Zoom sur nos chantiers récents</h2>
+  <section class="futura-gallery" id="futuraGallery">
+    <article class="holo-card scanlines"><div class="holo-glow"></div><div class="holo-inner"><img src="/images/im16.jpg" alt="Réalisation 16" loading="lazy" decoding="async"></div></article>
+    <article class="holo-card wide scanlines"><div class="holo-glow"></div><div class="holo-inner"><img src="/images/im17.jpg" alt="Réalisation 17" loading="lazy" decoding="async"></div></article>
+    <article class="holo-card scanlines"><div class="holo-glow"></div><div class="holo-inner"><img src="/images/im18.png" alt="Réalisation 18" loading="lazy" decoding="async"></div></article>
+    <article class="holo-card tall scanlines"><div class="holo-glow"></div><div class="holo-inner"><img src="/images/im20.jpeg" alt="Réalisation 20" loading="lazy" decoding="async"></div></article>
+    <article class="holo-card scanlines"><div class="holo-glow"></div><div class="holo-inner"><img src="/images/im19.png" alt="Réalisation 19" loading="lazy" decoding="async"></div></article>
+    <article class="holo-card scanlines"><div class="holo-glow"></div><div class="holo-inner"><img src="/images/im21.jpg" alt="Réalisation 21" loading="lazy" decoding="async"></div></article>
+    <article class="holo-card wide scanlines"><div class="holo-glow"></div><div class="holo-inner"><img src="/images/im5.jpeg" alt="Réalisation 22" loading="lazy" decoding="async"></div></article>
+  </section>
+</content>
 
-        <!-- im17 (large) -->
-        <article class="holo-card wide scanlines">
-            <div class="holo-glow"></div>
-            <div class="holo-inner">
-                <img src="/images/im17.jpg"
-                     data-base="/images/im17"
-                     data-fallback="jpeg,png,webp"
-                     alt="Réalisation 17" loading="lazy" decoding="async"
-                     onerror="fallbackExt(this)">
-            </div>
-        </article>
+<extraScripts>
+  <script>
+    /* ====== LOGIQUE DU CAROUSEL "RÉALISATIONS" (en %) — pas de calculs de px ====== */
+    let reelIndex = 0;
+    const reelTrack = document.getElementById('reelTrack');
+    const reelSlides = () => Array.from(document.querySelectorAll('.reel-slide'));
+    const reelCount = () => reelSlides().length;
 
-        <!-- im18 -->
-        <article class="holo-card scanlines">
-            <div class="holo-glow"></div>
-            <div class="holo-inner">
-                <img src="/images/im18.jpg"
-                     data-base="/images/im18"
-                     data-fallback="jpeg,png,webp"
-                     alt="Réalisation 18" loading="lazy" decoding="async"
-                     onerror="fallbackExt(this)">
-            </div>
-        </article>
-
-        <!-- im20 (anciennement im19) -->
-		<article class="holo-card tall scanlines">
-		    <div class="holo-glow"></div>
-		    <div class="holo-inner">
-		        <img src="/images/im20.jpg"
-		             data-base="/images/im20"
-		             data-fallback="jpeg,png,webp"
-		             alt="Réalisation 20" loading="lazy" decoding="async"
-		             onerror="fallbackExt(this)">
-		    </div>
-		</article>
-		
-		<!-- im19 (anciennement im20) -->
-		<article class="holo-card scanlines">
-		    <div class="holo-glow"></div>
-		    <div class="holo-inner">
-		        <img src="/images/im19.jpg"
-		             data-base="/images/im19"
-		             data-fallback="jpeg,png,webp"
-		             alt="Réalisation 19" loading="lazy" decoding="async"
-		             onerror="fallbackExt(this)">
-		    </div>
-		</article>
-
-
-        <!-- im21 -->
-        <article class="holo-card scanlines">
-            <div class="holo-glow"></div>
-            <div class="holo-inner">
-                <img src="/images/im21.jpg"
-                     data-base="/images/im21"
-                     data-fallback="jpeg,png,webp"
-                     alt="Réalisation 21" loading="lazy" decoding="async"
-                     onerror="fallbackExt(this)">
-            </div>
-        </article>
-
-        <!-- im22 (très large) -->
-        <article class="holo-card wide scanlines">
-            <div class="holo-glow"></div>
-            <div class="holo-inner">
-                <img src="/images/im5.jpg"
-                     data-base="/images/im5"
-                     data-fallback="jpeg,png,webp"
-                     alt="Réalisation 22" loading="lazy" decoding="async"
-                     onerror="fallbackExt(this)">
-            </div>
-        </article>
-    </section>
-</div>
-
-<footer>
-    © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
-</footer>
-
-<script>
-    /* ==== Carousel existant ==== */
-    let currentIndex = 0;
-    function scrollCarousel(direction) {
-        const carousel = document.getElementById("carousel");
-        const slides = document.querySelectorAll(".slide-pair");
-        const totalSlides = slides.length;
-        currentIndex += direction;
-        if (currentIndex < 0) currentIndex = totalSlides - 1;
-        if (currentIndex >= totalSlides) currentIndex = 0;
-        const slideWidth = slides[0].offsetWidth;
-        carousel.style.transform = "translateX(-" + (currentIndex * slideWidth) + "px)";
-    }
-    setInterval(function(){ scrollCarousel(1); }, 3000);
-
-    /* ==== Chargement images avec extensions de secours ==== */
-    function fallbackExt(img){
-        try {
-            const base = img.dataset.base || "";
-            const list = (img.dataset.fallback || "").split(",").map(s => s.trim()).filter(Boolean);
-            const idx = parseInt(img.dataset.fallbackIndex || "0", 10);
-            if (!base || idx >= list.length) return;
-            img.dataset.fallbackIndex = (idx + 1).toString();
-            img.src = base + "." + list[idx];
-        } catch(e){ /* silencieux */ }
+    function reelApplyTransform(){
+      reelTrack.style.transform = 'translateX(' + (-reelIndex * 100) + '%)';
     }
 
-    /* ==== Effets futuristes : tilt + glow + reveal ==== */
+    function reelScroll(dir){
+      const total = reelCount();
+      reelIndex = (reelIndex + dir + total) % total;
+      reelApplyTransform();
+    }
+
+    // Auto
+    let reelTimer = setInterval(()=>reelScroll(1), 3000);
+
+    // Pause au survol (optionnel)
+    reelTrack.addEventListener('mouseenter', ()=> clearInterval(reelTimer));
+    reelTrack.addEventListener('mouseleave', ()=> reelTimer = setInterval(()=>reelScroll(1), 3000));
+
+    // Recalcule (inutile ici car on travaille en %, mais on garantit l'état initial)
+    window.addEventListener('load', reelApplyTransform);
+    document.addEventListener('DOMContentLoaded', reelApplyTransform);
+
+    // ====== Effets galerie ======
     (function(){
-        const cards = document.querySelectorAll('.holo-card');
-
-        // Révélation douce au scroll
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('in-view');
-            });
-        }, { threshold: 0.12 });
-        cards.forEach(c => io.observe(c));
-
-        // Tilt + glow
-        cards.forEach(card => {
-            const glow = card.querySelector('.holo-glow');
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left, y = e.clientY - rect.top;
-                const midX = rect.width / 2, midY = rect.height / 2;
-                const rotX = ((y - midY) / midY) * -4;
-                const rotY = ((x - midX) / midX) * 4;
-                card.style.transform = "rotateX(" + rotX + "deg) rotateY(" + rotY + "deg)";
-                glow.style.opacity = 1;
-                card.style.setProperty('--mx', (x / rect.width) * 100 + '%');
-                card.style.setProperty('--my', (y / rect.height) * 100 + '%');
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'rotateX(0deg) rotateY(0deg)';
-                glow.style.opacity = 0;
-            });
+      const cards=document.querySelectorAll('.holo-card');
+      const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view')}),{threshold:.12});
+      cards.forEach(c=>io.observe(c));
+      cards.forEach(card=>{
+        const glow=card.querySelector('.holo-glow');
+        card.addEventListener('mousemove',(e)=>{
+          const r=card.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,mx=r.width/2,my=r.height/2;
+          const rx=((y-my)/my)*-4, ry=((x-mx)/mx)*4;
+          card.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;
+          glow.style.opacity=1;
+          card.style.setProperty('--mx',(x/r.width)*100+'%');
+          card.style.setProperty('--my',(y/r.height)*100+'%');
         });
+        card.addEventListener('mouseleave',()=>{card.style.transform='rotateX(0) rotateY(0)'; glow.style.opacity=0;});
+      });
     })();
-</script>
-
-</body>
+  </script>
+</extraScripts>
 </html>

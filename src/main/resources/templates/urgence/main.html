@@ -1,114 +1,67 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Urgence - Le Bon Tuyau</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/css/style.css">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: base(
+         pageTitle=#{title.urgent} ?: 'Demande urgente - Le Bon Tuyau',
+         body=~{::content},
+         showUrgent=${false},
+         extraHead=~{::extraHead},
+         extraScripts=~{::extraScripts}
+      )}">
 
-  <!-- Flatpickr (date & time) -->
+<extraHead>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
-
   <style>
-    .inline-row { display:flex; gap:10px; }
-    .inline-row > div { flex:1; }
-    @media (max-width:700px){ .inline-row { flex-direction:column; } }
+    .inline-row{display:flex;gap:10px;}
+    .inline-row>div{flex:1;}
+    @media (max-width:700px){.inline-row{flex-direction:column;}}
   </style>
-</head>
-<body>
+</extraHead>
 
-<header>
-  <img src="/images/logo.png" alt="Logo" class="logo">
-  Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque
-</header>
+<content>
+  <h1 th:text="#{urgent.title}">Demande d’intervention urgente</h1>
 
-<nav>
-  <a href="/">Accueil</a>
-  <a href="/services">Nos Services</a>
-  <a href="/realisations">Réalisations</a>
-  <a href="/about">À propos</a>
-  <a href="/contact">Contact</a>
-</nav>
-
-<div class="container">
-  <h1>Demande d’intervention urgente</h1>
-
-  <p style="font-size: 18px; margin-bottom: 20px;">
-    Pour toute intervention <strong>urgente</strong>, un <strong>acompte de 100€</strong> est requis.<br>
-    Une fois le paiement effectué, un professionnel vous contactera dans les <strong>24h</strong>.
+  <p style="font-size:18px;margin-bottom:20px;">
+    <span th:utext="#{urgent.info}">
+      Pour toute intervention <strong>urgente</strong>, un <strong>acompte de 100€</strong> est requis…
+    </span>
   </p>
 
   <form th:action="@{/urgence/payer}" method="post" th:object="${urgenceForm}">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
-    <label for="prenom"><strong>Nom + Prénom :</strong></label><br>
-    <input type="text" id="prenom" th:field="*{prenom}" required placeholder="Ex : Jean Dupont"
-           style="width:100%; padding:8px;"><br><br>
+    <label for="prenom"><strong th:text="#{urgent.name}">Nom + Prénom :</strong></label><br>
+    <input type="text" id="prenom" th:field="*{prenom}" required placeholder="Ex : Jean Dupont" style="width:100%;padding:8px;"><br><br>
 
-    <label for="telephone"><strong>Numéro de téléphone :</strong></label><br>
-    <input type="tel" id="telephone" th:field="*{telephone}" required placeholder="Ex : 0470 00 00 00"
-           style="width:100%; padding:8px;"><br><br>
+    <label for="telephone"><strong th:text="#{urgent.phone}">Numéro de téléphone :</strong></label><br>
+    <input type="tel" id="telephone" th:field="*{telephone}" required placeholder="Ex : 0470 00 00 00" style="width:100%;padding:8px;"><br><br>
 
-    <label><strong>Votre première disponibilité (date + heure) :</strong></label>
+    <label><strong th:text="#{urgent.firstAvailability}">Votre première disponibilité (date + heure) :</strong></label>
     <div class="inline-row">
-      <div>
-        <!-- Date -->
-        <input type="text" id="dateDispo" th:field="*{disponibilite}" required
-               placeholder="Choisir une date" autocomplete="off" style="width:100%; padding:8px;">
-      </div>
-      <div>
-        <!-- Heure -->
-        <input type="text" id="heureDispo" th:field="*{heure}" required
-               placeholder="Choisir une heure" autocomplete="off" style="width:100%; padding:8px;">
-      </div>
+      <div><input type="text" id="dateDispo" th:field="*{disponibilite}" required placeholder="Choisir une date" autocomplete="off" style="width:100%;padding:8px;"></div>
+      <div><input type="text" id="heureDispo" th:field="*{heure}" required placeholder="Choisir une heure" autocomplete="off" style="width:100%;padding:8px;"></div>
     </div>
     <br>
 
-    <label for="description"><strong>Description du problème :</strong></label><br>
-    <textarea id="description" th:field="*{description}" rows="5"
-              style="width:100%; padding:8px;" required
-              placeholder="Ex : fuite d’eau, ballon d’eau chaude en panne, etc."></textarea><br><br>
+    <label for="description"><strong th:text="#{urgent.description}">Description du problème :</strong></label><br>
+    <textarea id="description" th:field="*{description}" rows="5" style="width:100%;padding:8px;" required placeholder="Ex : fuite d’eau, ballon d’eau chaude en panne, etc."></textarea><br><br>
 
-    <p style="font-size: 16px; color: #cc0000;">
-      ⚠️ Vous serez redirigé(e) vers une page de paiement Stripe pour régler l’acompte de 100€.
-    </p>
+    <p style="font-size:16px;color:#cc0000;" th:text="#{urgent.stripeWarning}">⚠️ Vous serez redirigé(e) vers Stripe…</p>
 
-    <button type="submit" class="cta" style="background-color: #007bff; color: white; padding: 12px 20px; border: none; font-size: 16px; cursor: pointer;">
-      ✅ Payer l'acompte et envoyer ma demande
-    </button>
+    <button type="submit" class="cta" style="background-color:#007bff;color:#fff;padding:12px 20px;border:none;font-size:16px;cursor:pointer;"
+            th:text="#{urgent.payAndSend}">✅ Payer l'acompte et envoyer ma demande</button>
   </form>
 
-  <div th:if="${confirmation}" style="margin-top: 20px; color: green; font-weight: bold;">
-    ✅ Votre demande a bien été reçue et nous vous confirmons réception du paiement. Nous vous contacterons sous 24h.
+  <div th:if="${confirmation}" style="margin-top:20px;color:green;font-weight:bold;">
+    ✅ <span th:text="#{urgent.confirmation}">Votre demande a bien été reçue…</span>
   </div>
-</div>
+</content>
 
-<footer>
-  © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
-</footer>
-
-<script>
-  // Date (calendrier)
-  flatpickr('#dateDispo', {
-    locale: 'fr',
-    dateFormat: 'Y-m-d',
-    defaultDate: new Date(),
-    allowInput: true
-  });
-
-  // Heure (sélecteur 24h, sans calendrier)
-  flatpickr('#heureDispo', {
-    locale: 'fr',
-    enableTime: true,
-    noCalendar: true,
-    dateFormat: 'H:i',
-    time_24hr: true,
-    minuteIncrement: 15,
-    defaultDate: new Date()
-  });
-</script>
-
-</body>
+<extraScripts>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
+  <script>
+    flatpickr('#dateDispo',{locale:'fr',dateFormat:'Y-m-d',defaultDate:new Date(),allowInput:true});
+    flatpickr('#heureDispo',{locale:'fr',enableTime:true,noCalendar:true,dateFormat:'H:i',time_24hr:true,minuteIncrement:15,defaultDate:new Date()});
+  </script>
+</extraScripts>
 </html>

@@ -1,51 +1,66 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${title}">Le Bon Tuyau - Nos Services</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: base(
+         pageTitle=${title} ?: #{title.services},
+         body=~{::content},
+         showUrgent=${false},
+         extraHead=~{::extraHead},
+         extraScripts=~{::extraScripts}
+      )}">
 
-<body>
+<extraHead>
+  <!-- CSS spécifique Services (optionnel) -->
+</extraHead>
 
-    <!-- Header avec Logo -->
-    <header>
-        <img src="/images/logo.png" alt="Le Bon Tuyau Logo" class="logo">
-        Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque
-    </header>
+<content>
+  <h1 th:text="#{services.title}">Liste des services</h1>
 
-    <!-- Navigation -->
-    <nav>
-        <a href="/">Accueil</a>
-        <a href="/services">Nos Services</a>
-        <a href="/realisations">Réalisations</a>
-        <a href="/about">À propos</a>
-        <a href="/contact">Contact</a>
-    </nav>
 
-    <!-- Contenu Services -->
-    <div class="container">
-        <h1 th:text="${title}">Nos Services</h1>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Service</th>
-                <th>Description</th>
-                <th>Prix à partir de (€)</th>
-            </tr>
-            <tr th:each="service : ${services}">
-                <td th:text="${service.idService}"></td>
-                <td th:text="${service.service}"></td>
-                <td th:text="${service.description}"></td>
-                <td th:text="${service.prix}"></td>
-            </tr>
-        </table>
-    </div>
+  <div class="table-wrapper">
+    <table class="table services-table">
+      <thead>
+        <tr>
+          <th th:text="#{services.col.id} ?: 'ID'">ID</th>
+          <th th:text="#{services.col.name}">Service</th>
+          <th th:text="#{services.col.desc}">Description</th>
+          <th th:text="#{services.col.price}">Prix à partir de (€)</th>
+        </tr>
+      </thead>
 
-    <!-- Footer -->
-    <footer>
-        © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
-    </footer>
+      <tbody th:if="${not #lists.isEmpty(services)}">
+        <tr th:each="service : ${services}">
+          <td th:text="${service.idService}">1</td>
 
-</body>
+          <!-- Nom du service : essaie la clé i18n 'services.{id}.name', sinon fallback sur la valeur FR en BDD -->
+          <td th:text="${#messages.msgOrNull('services.' + service.idService + '.name') ?: service.service}">
+            Intitulé
+          </td>
+
+          <!-- Description : essaie 'services.{id}.desc', sinon fallback BDD -->
+          <td th:text="${#messages.msgOrNull('services.' + service.idService + '.desc') ?: service.description}">
+            Description…
+          </td>
+
+          <td th:text="${service.prix}">0.00</td>
+        </tr>
+      </tbody>
+
+      <tbody th:if="${#lists.isEmpty(services)}">
+        <tr>
+          <td colspan="4" class="text-center">
+            <span th:text="#{services.empty}">Aucun service disponible pour le moment.</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="actions" style="margin-top:1.5rem;">
+    <a href="/demande" class="cta" th:text="#{home.cta}">Demander un devis</a>
+  </div>
+</content>
+
+<extraScripts>
+  <!-- JS spécifique Services (optionnel) -->
+</extraScripts>
 </html>

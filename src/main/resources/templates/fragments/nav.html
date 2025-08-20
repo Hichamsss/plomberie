@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="nav(showUrgent=false)">
+  <nav class="topnav">
+    <a th:if="${showUrgent}" href="/urgence" class="urgent-btn">
+      <span th:text="#{nav.urgent}">BESOIN D'UNE INTERVENTION URGENTE?</span>
+      <img src="/images/click-icon.png" th:alt="#{alt.click}" alt="cliquer ici" class="click-icon">
+    </a>
+
+    <a href="/" th:text="#{nav.home}">Accueil</a>
+    <a href="/services" th:text="#{nav.services}">Nos Services</a>
+    <a href="/realisations" th:text="#{nav.projects}">Réalisations</a>
+    <a href="/about" th:text="#{nav.about}">À propos</a>
+    <a href="/contact" th:text="#{nav.contact}">Contact</a>
+
+    <a th:href="@{/login}" class="login-btn" th:text="#{auth.login}">Se connecter</a>
+  </nav>
+</html>

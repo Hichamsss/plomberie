@@ -1,161 +1,46 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - Le Bon Tuyau</title>
-    <style>
-        /* Style identique à ta page home */
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: base(
+         pageTitle=#{title.contact},
+         body=~{::content},
+         showUrgent=${true},
+         extraHead=~{::extraHead},
+         extraScripts=~{::extraScripts}
+      )}">
 
-        header {
-            background-color: #005f9e;
-            padding: 20px;
-            text-align: center;
-            color: white;
-            font-size: 26px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+<extraHead>
+  <style>
+    .container { width: 90%; max-width: 1200px; margin: auto; padding: 20px; }
+    h1 { text-align: center; color: #00497a; font-family: 'Roboto', sans-serif; font-size: 32px; }
+    .professional-section { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,.1); margin-bottom: 30px; }
+    .professional-text { font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 20px; }
+    .highlight { color: #005f9e; font-weight: 700; }
+    .contact-info { font-size: 20px; text-align: center; margin: 10px 0; }
+    .cta { display: block; width: 220px; text-align: center; margin: 30px auto; padding: 12px; background: #FF6F00; color: #fff; text-decoration: none; font-size: 18px; border-radius: 5px; font-weight: 700; transition: all .3s; }
+    .cta:hover { background: #e65c00; box-shadow: 0 4px 8px rgba(0,0,0,.2); transform: translateY(-2px); }
+  </style>
+</extraHead>
 
-        .logo {
-            height: 60px;
-            margin-right: 15px;
-        }
-
-        nav {
-            background-color: #00497a;
-            padding: 10px;
-            text-align: center;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 18px;
-        }
-
-        nav a:hover {
-            color: #FF6F00;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #00497a;
-            font-family: 'Roboto', sans-serif;
-            font-size: 32px;
-        }
-
-        .professional-section {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .professional-text {
-            font-size: 18px;
-            line-height: 1.6;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .highlight {
-            color: #005f9e;
-            font-weight: bold;
-        }
-
-        .contact-info {
-            font-size: 20px;
-            text-align: center;
-            margin: 10px 0;
-        }
-
-        .cta {
-            display: block;
-            width: 220px;
-            text-align: center;
-            margin: 30px auto;
-            padding: 12px;
-            background-color: #FF6F00;
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .cta:hover {
-            background-color: #e65c00;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            background-color: #333;
-            color: white;
-            font-size: 14px;
-        }
-    </style>
-</head>
-<body>
-<header>
-    <img src="/images/logo.png" alt="Le Bon Tuyau Logo" class="logo">
-    Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque
-</header>
-
-<nav>
-    <a href="/">Accueil</a>
-    <a href="/services">Nos Services</a>
-    <a href="/realisations">Réalisations</a>
-    <a href="/about">À propos</a>
-    <a href="/contact">Contact</a>
-</nav>
-
-<div class="container">
-    <h1>Contactez-nous</h1>
+<content>
+  <div class="container">
+    <h1 th:text="#{contact.title}">Contactez-nous</h1>
 
     <div class="professional-section">
-        <p class="professional-text">
-            Pour toute demande d'information, devis ou urgence, n'hésitez pas à nous contacter via les coordonnées ci-dessous.
-        </p>
+      <p class="professional-text" th:text="#{contact.intro}">
+        Une question, un devis ou une urgence ? Voici nos coordonnées :
+      </p>
 
-        <p class="contact-info">
-            📧 <span class="highlight">Email :</span> <a href="mailto:Lebontuyau15@hotmail.com">Lebontuyau15@hotmail.com</a><br>
-            📞 <span class="highlight">Téléphone :</span> <a href="tel:+32489269733">0489 26 97 33</a>
-        </p>
-
-        <p class="professional-text">
-            Nous sommes disponibles 7j/7 pour répondre à vos besoins en plomberie, sanitaire et photovoltaïque partout en Belgique.
-        </p>
+      <p class="contact-info">
+        📧 <span class="highlight" th:text="#{contact.emailLabel}">Email :</span>
+        <a th:href="|mailto:#{contact.emailValue}|" th:text="#{contact.emailValue}">lebontuyau15@hotmail.com</a><br>
+        📞 <span class="highlight" th:text="#{contact.phoneLabel}">Téléphone :</span>
+        <a th:href="|tel:#{contact.phoneValueTel}|" th:text="#{contact.phoneValueDisplay}">+32 489 26 97 33</a>
+      </p>
     </div>
 
-    <a href="/demande" class="cta">Demander un devis</a>
-</div>
+    <a class="cta" th:href="@{/demande}" th:text="#{contact.ctaQuote}">Demander un devis</a>
+  </div>
+</content>
 
-<footer>
-    © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
-</footer>
-</body>
+<extraScripts></extraScripts>
 </html>

@@ -1,203 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>À propos - Le Bon Tuyau</title>
-    <style>
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: base(
+         pageTitle=#{title.about} ?: 'À propos - Le Bon Tuyau',
+         body=~{::content},
+         showUrgent=${false},
+         extraHead=~{::extraHead},
+         extraScripts=~{::extraScripts}
+      )}">
 
-        header {
-            background-color: #005f9e;
-            padding: 20px;
-            text-align: center;
-            color: white;
-            font-size: 26px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+<extraHead>
+  <style>
+    /* CSS spécifique à propos (animations scroll, etc.) */
+    .scroll-image{opacity:0;transform:translateX(0);transition:transform 1s ease,opacity 1s ease;max-width:100%;border-radius:8px;margin:20px auto;display:block;}
+    .from-left{transform:translateX(-150px);} .from-right{transform:translateX(150px);}
+    .scroll-image.show{opacity:1;transform:translateX(0);}
+  </style>
+</extraHead>
 
-        .logo {
-            height: 60px;
-            margin-right: 15px;
-        }
+<content>
+  <h1>À propos du Bon Tuyau</h1>
 
-        nav {
-            background-color: #00497a;
-            padding: 10px;
-            text-align: center;
-        }
+  <div class="professional-section">
+    <p class="professional-text">
+      Fondée par un artisan indépendant passionné, <span class="highlight">Le Bon Tuyau</span> est née après près de <span class="highlight">10 ans d'expérience</span>…
+    </p>
+    <p class="professional-text">L’entreprise est basée sur des valeurs solides : <span class="highlight">professionnalisme, confiance, qualité et réactivité</span>.</p>
+    <p class="professional-text">Le Bon Tuyau intervient dans toute la Belgique…</p>
+    <p class="professional-text">Choisir Le Bon Tuyau, c’est choisir un service de proximité…</p>
+  </div>
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 18px;
-        }
+  <img src="/images/im14.jpg" alt="Notre équipe au travail" class="scroll-image from-left">
+  <img src="/images/im15.png" alt="Nos réalisations" class="scroll-image from-right">
 
-        nav a:hover {
-            color: #FF6F00;
-        }
+  <a href="/demande" class="cta" th:text="#{home.cta}">Demander un devis</a>
+</content>
 
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #00497a;
-            font-family: 'Roboto', sans-serif;
-            font-size: 32px;
-        }
-
-        .professional-section {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .professional-text {
-            font-size: 18px;
-            line-height: 1.6;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .highlight {
-            color: #005f9e;
-            font-weight: bold;
-        }
-
-        .cta {
-            display: block;
-            width: 220px;
-            text-align: center;
-            margin: 30px auto;
-            padding: 12px;
-            background-color: #FF6F00;
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .cta:hover {
-            background-color: #e65c00;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            background-color: #333;
-            color: white;
-            font-size: 14px;
-        }
-
-        /* Effets d'animation au scroll */
-        .scroll-image {
-            opacity: 0;
-            transform: translateX(0);
-            transition: transform 1s ease, opacity 1s ease;
-            max-width: 100%;
-            border-radius: 8px;
-            margin: 20px auto;
-            display: block;
-        }
-
-        .from-left {
-            transform: translateX(-150px);
-        }
-
-        .from-right {
-            transform: translateX(150px);
-        }
-
-        .scroll-image.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    </style>
-</head>
-<body>
-<header>
-    <img src="/images/logo.png" alt="Le Bon Tuyau Logo" class="logo">
-    Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque
-</header>
-
-<nav>
-    <a href="/">Accueil</a>
-    <a href="/services">Nos Services</a>
-    <a href="/realisations">Réalisations</a>
-    <a href="/about">À propos</a>
-    <a href="/contact">Contact</a>
-</nav>
-
-<div class="container">
-    <h1>À propos du Bon Tuyau</h1>
-
-    <div class="professional-section">
-        <p class="professional-text">
-            Fondée par un artisan indépendant passionné, <span class="highlight">Le Bon Tuyau</span> est née après près de <span class="highlight">10 ans d'expérience</span> dans le domaine de la plomberie, sanitaire et photovoltaïque.
-        </p>
-
-        <p class="professional-text">
-            L’entreprise est basée sur des valeurs solides : <span class="highlight">professionnalisme, confiance, qualité et réactivité</span>.
-        </p>
-
-        <p class="professional-text">
-            Le Bon Tuyau intervient dans toute la Belgique, que ce soit pour des installations neuves, des rénovations, des dépannages urgents ou l'installation de solutions photovoltaïques durables.
-        </p>
-
-        <p class="professional-text">
-            Choisir Le Bon Tuyau, c’est choisir un service de proximité, humain, et à l’écoute de vos besoins techniques et budgétaires.
-        </p>
-    </div>
-
-    <!-- Images avec effet au scroll -->
-    <img src="/images/im14.jpg" alt="Notre équipe au travail" class="scroll-image from-left">
-    <img src="/images/im15.png" alt="Nos réalisations" class="scroll-image from-right">
-
-    <a href="/demande" class="cta">Demander un devis</a>
-</div>
-
-<footer>
-    © 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A
-</footer>
-
-<script>
-    // Détection du scroll pour afficher les images
-    const scrollImages = document.querySelectorAll('.scroll-image');
-
-    function checkScroll() {
-        const triggerBottom = window.innerHeight * 0.85;
-        scrollImages.forEach(img => {
-            const imgTop = img.getBoundingClientRect().top;
-            if (imgTop < triggerBottom) {
-                img.classList.add('show');
-            }
-        });
-    }
-
-    window.addEventListener('scroll', checkScroll);
-    window.addEventListener('load', checkScroll);
-</script>
-</body>
+<extraScripts>
+  <script>
+    const scrollImages=document.querySelectorAll('.scroll-image');
+    function checkScroll(){const tb=window.innerHeight*.85;scrollImages.forEach(img=>{if(img.getBoundingClientRect().top<tb){img.classList.add('show')}})}
+    window.addEventListener('scroll',checkScroll); window.addEventListener('load',checkScroll);
+  </script>
+</extraScripts>
 </html>

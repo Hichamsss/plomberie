@@ -1,45 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      th:attr="lang=${#locale}">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}"
+      th:fragment="base(pageTitle, body, showUrgent, extraHead, extraScripts)">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="${title} ?: #{site.title}">Le Bon Tuyau</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <style>
-      .lang { position: absolute; top: 10px; right: 16px; font-size: .95rem; }
-      .lang a { text-decoration: none; margin-left: 6px; opacity:.9 }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title th:text="${pageTitle}">Le Bon Tuyau</title>
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <!-- Fragments spécifiques (ex: CSS custom) -->
+  <th:block th:if="${extraHead != null}" th:replace="${extraHead}"></th:block>
 </head>
 <body>
+  <header th:replace="~{fragments/header :: header}"></header>
+  <nav th:replace="~{fragments/nav :: nav(${showUrgent})}"></nav>
 
-<header>
-    <img src="/images/logo.png" alt="Le Bon Tuyau Logo" class="logo">
-    <span th:text="#{site.tagline}">Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque</span>
+  <!-- Contenu principal -->
+  <main class="container" th:replace="${body}"></main>
 
-    <!-- Sélecteur de langue (apparaît partout grâce au layout) -->
-    <div class="lang">
-      <a th:href="@{__${#httpServletRequest.requestURI}__(lang='fr')}">FR</a> |
-      <a th:href="@{__${#httpServletRequest.requestURI}__(lang='en')}">EN</a> |
-      <a th:href="@{__${#httpServletRequest.requestURI}__(lang='nl_BE')}">NL</a>
-    </div>
-</header>
+  <footer th:replace="~{fragments/footer :: footer}"></footer>
 
-<nav>
-    <a th:href="@{/}" th:text="#{nav.home}">Accueil</a>
-    <a th:href="@{/services}" th:text="#{nav.services}">Nos Services</a>
-    <a th:href="@{/realisations}" th:text="#{nav.works}">Réalisations</a>
-    <a th:href="@{/about}" th:text="#{nav.about}">À propos</a>
-    <a th:href="@{/contact}" th:text="#{nav.contact}">Contact</a>
-</nav>
-
-<div class="container" layout:fragment="content">
-    <!-- Le contenu des pages ira ici -->
-</div>
-
-<footer>
-    <span th:text="#{site.footer}">© 2025 Le Bon Tuyau - Tous droits réservés | By S.H / Z.I / S.A</span>
-</footer>
-
+  <!-- Fragments spécifiques (ex: JS custom) -->
+  <th:block th:if="${extraScripts != null}" th:replace="${extraScripts}"></th:block>
 </body>
 </html>

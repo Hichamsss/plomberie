@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="header">
+  <header class="header">
+    <div class="brand-left">
+      <img src="/images/logo.png" th:alt="#{app.logoAlt}" alt="Le Bon Tuyau Logo" class="logo">
+      <span th:text="#{app.tagline}">Le Bon Tuyau - Plomberie, Sanitaire & Photovoltaïque</span>
+    </div>
+    <div th:replace="~{fragments/_lang :: langSwitch}"></div>
+  </header>
+</html>
