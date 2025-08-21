@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS fourniture (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    reference VARCHAR(64) NOT NULL UNIQUE,
+    nom VARCHAR(160) NOT NULL,
+    description TEXT,
+    categorie VARCHAR(32) NOT NULL,
+    marque VARCHAR(80),
+    prix_ht DECIMAL(12,2) NOT NULL,
+    tva INT NOT NULL,
+    unite VARCHAR(16) NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    actif BOOLEAN NOT NULL DEFAULT TRUE,
+    deleted BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL
+);
