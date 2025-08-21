@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS conseil_entretien (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    titre VARCHAR(140) NOT NULL,
+    description VARCHAR(1000) NOT NULL,
+    categorie VARCHAR(40) NOT NULL,
+    actif BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL
+);
