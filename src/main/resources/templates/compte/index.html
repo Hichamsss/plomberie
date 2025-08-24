@@ -40,14 +40,22 @@
 <div class="wrap">
 
   <!-- Infos utilisateur -->
-  <div class="card" th:if="${client != null}">
-    <h2>Mes informations</h2>
-    <div class="muted">
-      <div><strong>Nom:</strong> <span th:text="${client.firstname}">Prénom</span></div>
-      <div><strong>Email:</strong> <span th:text="${client.email}">email@example.com</span></div>
-      <div><strong>Téléphone:</strong> <span th:text="${client.telephone}">-</span></div>
-    </div>
+ <div class="card" th:if="${client != null}">
+  <h2>Mes informations</h2>
+  <div class="muted">
+    <div><strong>Nom:</strong> <span th:text="${client.firstname}">Prénom</span></div>
+    <div><strong>Email:</strong> <span th:text="${client.email}">email@example.com</span></div>
+    <div><strong>Téléphone:</strong> <span th:text="${client.telephone}">-</span></div>
   </div>
+
+  <form th:action="@{/compte/supprimer}" method="post" style="margin-top:15px;display:inline-block;">
+    <button type="submit"
+            style="background:#dc2626;border:none;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.9em;">
+      Supprimer mon compte
+    </button>
+  </form>
+</div>
+  
 
   <!-- Bouton laisser un avis si éligible -->
   <div class="card" th:if="${peutLaisserAvis}">
