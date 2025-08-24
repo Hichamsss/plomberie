@@ -1,6 +1,12 @@
 # ============================================
-# Ignorer fichier contenant des secrets
-# (décommentez la ligne suivante si vous voulez cacher application.properties en prod)
+# Ignorer fichiers contenant des secrets locaux
+# ============================================
+# Ce fichier contient tes vraies clés (Stripe, Mail, etc.)
+src/main/resources/application.local.properties
+
+# ============================================
+# (Optionnel) En production tu peux aussi ignorer application.properties
+# Décommente la ligne suivante si tu veux cacher le fichier principal
 # src/main/resources/application.properties
 # ============================================
 
