@@ -1,51 +1,37 @@
-# ============================================
-# Ignorer fichiers contenant des secrets locaux
-# ============================================
-# Ce fichier contient tes vraies clés (Stripe, Mail, etc.)
+# Secrets locaux
 src/main/resources/application.local.properties
 
-# ============================================
-# (Optionnel) En production tu peux aussi ignorer application.properties
-# Décommente la ligne suivante si tu veux cacher le fichier principal
-# src/main/resources/application.properties
-# ============================================
-
-# Aide, Build Tools, Maven
-HELP.md
+# Build/IDE
 target/
+bin/
+.mvn/wrapper/maven-wrapper.jar
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-# Eclipse / Spring Tool Suite
-.apt_generated
+# Eclipse / STS
 .classpath
-.factorypath
 .project
 .settings/
 .springBeans
 .sts4-cache
 
-# IntelliJ IDEA
+# IntelliJ
 .idea/
-*.iws
 *.iml
 *.ipr
+*.iws
 
-# NetBeans
+# VS Code
+.vscode/
+
+# NetBeans / Gradle build dirs
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-# VS Code
-.vscode/
-
-# Fichiers temporaires / système
+# Logs & OS
 *.log
 .DS_Store
 Thumbs.db
