@@ -2,7 +2,7 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
-  <title>Mon compte</title>
+  <title th:text="#{title.account}">Mon compte</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
     body{margin:0;font-family:'Segoe UI',sans-serif;background:#0f172a;color:#fff}
@@ -23,7 +23,7 @@
 </head>
 <body>
 <header>
-  Mon compte
+  <span th:text="#{title.account}">Mon compte</span>
   <form th:action="@{/logout}" method="post" style="float:right; margin-top:-10px;">
     <button type="submit" style="
       background:#dc2626;
@@ -33,57 +33,59 @@
       border-radius:6px;
       cursor:pointer;
       font-size:0.9em;
-    ">Se déconnecter</button>
+    " th:text="#{button.logout}">Se déconnecter</button>
   </form>
 </header>
 
 <div class="wrap">
 
   <!-- Infos utilisateur -->
- <div class="card" th:if="${client != null}">
-  <h2>Mes informations</h2>
-  <div class="muted">
-    <div><strong>Nom:</strong> <span th:text="${client.firstname}">Prénom</span></div>
-    <div><strong>Email:</strong> <span th:text="${client.email}">email@example.com</span></div>
-    <div><strong>Téléphone:</strong> <span th:text="${client.telephone}">-</span></div>
-  </div>
+  <div class="card" th:if="${client != null}">
+    <h2 th:text="#{account.info}">Mes informations</h2>
+    <div class="muted">
+      <div><strong th:text="#{label.firstname}">Nom:</strong> <span th:text="${client.firstname}">Prénom</span></div>
+      <div><strong>Email:</strong> <span th:text="${client.email}">email@example.com</span></div>
+      <div><strong th:text="#{label.phone}">Téléphone:</strong> <span th:text="${client.telephone}">-</span></div>
+    </div>
 
-  <form th:action="@{/compte/supprimer}" method="post" style="margin-top:15px;display:inline-block;">
-    <button type="submit"
-            style="background:#dc2626;border:none;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.9em;">
-      Supprimer mon compte
-    </button>
-  </form>
-</div>
+    <form th:action="@{/compte/supprimer}" method="post" style="margin-top:15px;display:inline-block;">
+      <button type="submit"
+              style="background:#dc2626;border:none;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.9em;"
+              th:text="#{button.deleteAccount}">
+        Supprimer mon compte
+      </button>
+    </form>
+  </div>
   
 
   <!-- Bouton laisser un avis si éligible -->
   <div class="card" th:if="${peutLaisserAvis}">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
       <div>
-        <strong>Vous avez une prestation traitée.</strong>
-        <span class="muted">Partagez votre expérience&nbsp;!</span>
+        <strong th:text="#{review.invite}">Vous avez une prestation traitée.</strong>
+        <span class="muted" th:text="#{review.share}">Partagez votre expérience&nbsp;!</span>
       </div>
-      <a th:href="@{/avis/nouveau}" style="background:#16a34a;color:#fff;text-decoration:none;padding:8px 12px;border-radius:8px">
+      <a th:href="@{/avis/nouveau}" style="background:#16a34a;color:#fff;text-decoration:none;padding:8px 12px;border-radius:8px"
+         th:text="#{button.leaveReview}">
         Laisser un avis
       </a>
     </div>
   </div>
 
   <!-- Mes demandes de devis -->
-  <h2>Mes demandes de devis</h2>
+  <h2 th:text="#{account.myQuotes}">Mes demandes de devis</h2>
   <div class="card" th:if="${#lists.isEmpty(mesDevis)}">
-    <span class="muted">Aucune demande de devis pour l’instant.</span>
+    <span class="muted" th:text="#{account.noQuotes}">Aucune demande de devis pour l’instant.</span>
   </div>
   <table th:if="${!#lists.isEmpty(mesDevis)}">
     <thead>
       <tr>
         <th>#</th>
-        <th>Nom</th>
+        <th th:text="#{label.name}">Nom</th>
         <th>Email</th>
-        <th>Téléphone</th>
-        <th>Message</th>
-        <th>Statut</th>
+        <th th:text="#{label.phone}">Téléphone</th>
+        <th th:text="#{label.message}">Message</th>
+        <th th:text="#{label.status}">Statut</th>
       </tr>
     </thead>
     <tbody>
@@ -103,19 +105,19 @@
   </table>
 
   <!-- Mes interventions urgentes -->
-  <h2 style="margin-top:24px;">Mes interventions urgentes</h2>
+  <h2 style="margin-top:24px;" th:text="#{account.myUrgences}">Mes interventions urgentes</h2>
   <div class="card" th:if="${#lists.isEmpty(mesUrgences)}">
-    <span class="muted">Aucune intervention urgente soumise.</span>
+    <span class="muted" th:text="#{account.noUrgences}">Aucune intervention urgente soumise.</span>
   </div>
   <table th:if="${!#lists.isEmpty(mesUrgences)}">
     <thead>
       <tr>
         <th>#</th>
-        <th>Description</th>
-        <th>Première disponibilité</th>
-        <th>Téléphone</th>
-        <th>Statut</th>
-        <th>Paiement</th>
+        <th th:text="#{label.description}">Description</th>
+        <th th:text="#{label.date}">Première disponibilité</th>
+        <th th:text="#{label.phone}">Téléphone</th>
+        <th th:text="#{label.status}">Statut</th>
+        <th th:text="#{label.payment}">Paiement</th>
       </tr>
     </thead>
     <tbody>
@@ -130,7 +132,11 @@
                             (${u.statut != null and u.statut.name() == 'TRAITE'} ? 'badge b-traite' : 'badge b-attente')"
             th:text="${u.statut != null ? u.statut.name() : 'EN_ATTENTE'}">EN_ATTENTE</span>
         </td>
-        <td th:text="${u.stripeSessionId != null and !#strings.isEmpty(u.stripeSessionId) ? 'Payé' : 'Non payé'}">-</td>
+        <td>
+          <span th:text="${u.stripeSessionId != null and !#strings.isEmpty(u.stripeSessionId)} ? #{payment.paid} : #{payment.unpaid}">
+            -
+          </span>
+        </td>
       </tr>
     </tbody>
   </table>
