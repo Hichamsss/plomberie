@@ -1,20 +1,17 @@
 # ============================================
 # Ignorer fichier contenant des secrets
+# (décommentez la ligne suivante si vous voulez cacher application.properties en prod)
+# src/main/resources/application.properties
 # ============================================
-src/main/resources/application.properties
 
-# ============================================
 # Aide, Build Tools, Maven
-# ============================================
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# ============================================
 # Eclipse / Spring Tool Suite
-# ============================================
 .apt_generated
 .classpath
 .factorypath
@@ -23,17 +20,13 @@ target/
 .springBeans
 .sts4-cache
 
-# ============================================
 # IntelliJ IDEA
-# ============================================
 .idea/
 *.iws
 *.iml
 *.ipr
 
-# ============================================
 # NetBeans
-# ============================================
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -43,14 +36,10 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-# ============================================
 # VS Code
-# ============================================
 .vscode/
 
-# ============================================
 # Fichiers temporaires / système
-# ============================================
 *.log
 .DS_Store
-Thumbs.dbsrc/main/resources/application.properties 
+Thumbs.db
