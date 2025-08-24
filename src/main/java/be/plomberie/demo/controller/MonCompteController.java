@@ -4,6 +4,7 @@ import be.plomberie.demo.model.Client;
 import be.plomberie.demo.repository.ClientRepository;
 import be.plomberie.demo.repository.DemandeDevisRepository;
 import be.plomberie.demo.repository.UrgenceRequestRepository;
+import be.plomberie.demo.service.AvisEligibilityService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.security.core.Authentication;
@@ -17,43 +18,54 @@ public class MonCompteController {
     private final ClientRepository clientRepo;
     private final DemandeDevisRepository devisRepo;
     private final UrgenceRequestRepository urgRepo;
+    private final AvisEligibilityService avisEligibilityService;
 
     @PersistenceContext
-    private EntityManager em; // ✅ ajout minimal
+    private EntityManager em;
 
     public MonCompteController(ClientRepository clientRepo,
                                DemandeDevisRepository devisRepo,
-                               UrgenceRequestRepository urgRepo) {
+                               UrgenceRequestRepository urgRepo,
+                               AvisEligibilityService avisEligibilityService) {
         this.clientRepo = clientRepo;
         this.devisRepo = devisRepo;
         this.urgRepo = urgRepo;
+        this.avisEligibilityService = avisEligibilityService;
     }
 
     @GetMapping("/compte")
     public String compte(Authentication auth, Model model) {
-        em.clear(); // vide le 1er niveau de cache
+        if (auth == null || auth.getName() == null) {
+            return "redirect:/login";
+        }
 
-        Client client = clientRepo.findByEmail(auth.getName()).orElseThrow();
+        em.clear();
+
+        Client client = clientRepo.findByEmail(auth.getName()).orElse(null);
         model.addAttribute("client", client);
 
-        model.addAttribute("mesDevis",
-                devisRepo.findAllByClientOrEmailOrderByIdDesc(client, client.getEmail()));
+        if (client != null) {
+            model.addAttribute("mesDevis",
+                    devisRepo.findAllByClientOrEmailOrderByIdDesc(client, client.getEmail()));
 
-        String tel = (client.getTelephone() != null) ? client.getTelephone().trim() : null;
+            String tel = (client.getTelephone() != null) ? client.getTelephone().trim() : null;
 
-        // 1) on récupère les urgences comme d’habitude
-        var urgences = urgRepo.findAllByClientOrTelephoneOrContactEmailOrderByCreatedAtDesc(
-                client, tel, client.getEmail());
+            var urgences = urgRepo.findAllByClientOrTelephoneOrContactEmailOrderByCreatedAtDesc(
+                    client, tel, client.getEmail());
 
-        // 2) on force un rechargement depuis la BDD pour CHAQUE entité
-        //    (met à jour le champ statut même si l’instance était périmée)
-        urgences.forEach(u -> {
-            try { em.refresh(u); } catch (Exception ignore) {}
-        });
+            urgences.forEach(u -> {
+                try { em.refresh(u); } catch (Exception ignore) {}
+            });
 
-        model.addAttribute("mesUrgences", urgences);
+            model.addAttribute("mesUrgences", urgences);
+        } else {
+            model.addAttribute("mesDevis", java.util.Collections.emptyList());
+            model.addAttribute("mesUrgences", java.util.Collections.emptyList());
+        }
+
+        boolean peutLaisserAvis = avisEligibilityService.canLeaveReview(auth.getName());
+        model.addAttribute("peutLaisserAvis", peutLaisserAvis);
+
         return "compte/index";
     }
-
-
 }

@@ -1,15 +1,13 @@
 package be.plomberie.demo.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Data
@@ -24,7 +22,7 @@ public class Realisation {
 	private String description;
 	private LocalDateTime datePublication;
 	
-	 @OneToMany(mappedBy = "realisation", cascade = CascadeType.ALL, orphanRemoval = true)
-	 private List<Avis> avis;
+	@Transient
+	private java.util.List<Avis> avis = new java.util.ArrayList<>();
 	
 }

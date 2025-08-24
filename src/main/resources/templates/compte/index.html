@@ -49,6 +49,19 @@
     </div>
   </div>
 
+  <!-- Bouton laisser un avis si éligible -->
+  <div class="card" th:if="${peutLaisserAvis}">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div>
+        <strong>Vous avez une prestation traitée.</strong>
+        <span class="muted">Partagez votre expérience&nbsp;!</span>
+      </div>
+      <a th:href="@{/avis/nouveau}" style="background:#16a34a;color:#fff;text-decoration:none;padding:8px 12px;border-radius:8px">
+        Laisser un avis
+      </a>
+    </div>
+  </div>
+
   <!-- Mes demandes de devis -->
   <h2>Mes demandes de devis</h2>
   <div class="card" th:if="${#lists.isEmpty(mesDevis)}">

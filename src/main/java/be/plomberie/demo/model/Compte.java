@@ -30,5 +30,5 @@ public class Compte {
     @OneToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id",
         foreignKey = @ForeignKey(name = "fk_comptes_client"))
-    private Client client; // autorisé à null
+    private Client client;
 }

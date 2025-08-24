@@ -1,34 +1,24 @@
 package be.plomberie.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Data
-@NoArgsConstructor (force = true , access = AccessLevel.PROTECTED)
+@NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 @Entity
-@Table (name="avis")
+@Table(name = "avis")
 public class Avis {
-	
-	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private Long idAvis;
-	private String contenu;
-	private int note;
 
-	 @ManyToOne
-	 @JoinColumn(name = "client_id")
-	 private Client client;
-	 
-	 @ManyToOne
-	 @JoinColumn(name = "realisation_id", nullable = false)
-	 private Realisation realisation;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_avis")
+    private Integer idAvis;
 
+    @Column(nullable = false, length = 500)
+    private String contenu;
+
+    @Column(nullable = false)
+    private int note;
 }
