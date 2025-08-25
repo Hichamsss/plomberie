@@ -14,11 +14,23 @@ public class Avis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_avis")
-    private Integer idAvis;
+    private Long idAvis;
 
-    @Column(nullable = false, length = 500)
     private String contenu;
 
-    @Column(nullable = false)
-    private int note;
+    private int note; // 1..5
+
+    // Client FACULTATIF
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id",
+        nullable = true,
+        foreignKey = @ForeignKey(name = "fk_avis_client"))
+    private Client client;
+
+    // Réalisation FACULTATIVE (clé étrangère autorisant NULL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "realisation_id",
+        nullable = true,
+        foreignKey = @ForeignKey(name = "fk_avis_realisation"))
+    private Realisation realisation;
 }

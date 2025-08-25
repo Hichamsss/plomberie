@@ -1,0 +1,3 @@
+ALTER TABLE avis
+    MODIFY COLUMN realisation_id BIGINT NULL,
+    MODIFY COLUMN client_id BIGINT NULL;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import be.plomberie.demo.model.Avis;
 
 @Repository
-public interface AvisRepository extends JpaRepository<Avis, Integer> {
+public interface AvisRepository extends JpaRepository<Avis, Long> {
     
     List<Avis> findByNote(int note);
 }
